@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "128661540132",
+    "firebase_url": "https://progettoprogrammazione-858f6-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "progettoprogrammazione-858f6",
+    "storage_bucket": "progettoprogrammazione-858f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128661540132:android:8d484485e4d9eaebaef7b1",
+        "android_client_info": {
+          "package_name": "com.example.progetto_programmazione_ios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128661540132-2p4pc50l3al6d7fnl2mt5fu7hoosadh8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNDSVPCltSCx7LCq2s320mK266N0D7084"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128661540132-2p4pc50l3al6d7fnl2mt5fu7hoosadh8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "128661540132-8bjtmh0ua69nbbh6hrl0inmgv1r15skc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.progettoprogrammazioneios"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128661540132:android:e16e897b36960192aef7b1",
+        "android_client_info": {
+          "package_name": "com.example.progettoprogrammazione"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128661540132-2p4pc50l3al6d7fnl2mt5fu7hoosadh8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNDSVPCltSCx7LCq2s320mK266N0D7084"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128661540132-2p4pc50l3al6d7fnl2mt5fu7hoosadh8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "128661540132-8bjtmh0ua69nbbh6hrl0inmgv1r15skc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.progettoprogrammazioneios"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

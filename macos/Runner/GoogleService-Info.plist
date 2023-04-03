@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>128661540132-1gnomj9nc9s43gld54jhvfh526hp1ou1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.128661540132-1gnomj9nc9s43gld54jhvfh526hp1ou1</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAAN9QQVXA5OdFhKwAwTsQeumT_N63elmI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>128661540132</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.progettoProgrammazioneIos</string>
+	<key>PROJECT_ID</key>
+	<string>progettoprogrammazione-858f6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>progettoprogrammazione-858f6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:128661540132:ios:37c1f7ed2f863afbaef7b1</string>
+	<key>DATABASE_URL</key>
+	<string>https://progettoprogrammazione-858f6-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

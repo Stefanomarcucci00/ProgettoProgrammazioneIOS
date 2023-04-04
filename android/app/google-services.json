@@ -32,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "128661540132-8bjtmh0ua69nbbh6hrl0inmgv1r15skc.apps.googleusercontent.com",
+              "client_id": "128661540132-1gnomj9nc9s43gld54jhvfh526hp1ou1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.progettoprogrammazioneios"
+                "bundle_id": "com.example.progettoProgrammazioneIos"
               }
             }
           ]
@@ -68,10 +68,10 @@
               "client_type": 3
             },
             {
-              "client_id": "128661540132-8bjtmh0ua69nbbh6hrl0inmgv1r15skc.apps.googleusercontent.com",
+              "client_id": "128661540132-1gnomj9nc9s43gld54jhvfh526hp1ou1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.progettoprogrammazioneios"
+                "bundle_id": "com.example.progettoProgrammazioneIos"
               }
             }
           ]

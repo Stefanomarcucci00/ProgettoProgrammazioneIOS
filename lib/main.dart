@@ -1,9 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:progetto_programmazione_ios/firebase_options.dart';
 import 'package:progetto_programmazione_ios/profile_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -38,9 +45,6 @@ class _HomePageState extends State<HomePage> {
       FirebaseApp firebaseapp=await Firebase.initializeApp();
       return firebaseapp;
     }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -162,10 +166,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   //TEST APP
                   User? user= await loginUsingEmailPassword(email: _emailController.text, password: _pwdController.text, context: context);
                   print(user);
-                  if(user != null){
+
                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>ProfileScreen()));
                     //NUOVA SCHERMATA
-                  }
+
                 },
                 child: const Text("LogIn",
                   style: TextStyle(

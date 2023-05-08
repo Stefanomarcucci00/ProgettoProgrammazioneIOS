@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto_programmazione_ios/FragmentRestaurant.dart';
 import 'package:progetto_programmazione_ios/firebase_options.dart';
-import 'package:progetto_programmazione_ios/profile_screen.dart';
+import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -151,33 +151,18 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 88.0,
           ),
           Container(
-              width: double.infinity,
-              child: RawMaterialButton(
-                fillColor: const Color(0xFF0069FE),
-                elevation: 0.0,
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0)),
-                onPressed: () async {
-                  //TEST APP
-                  User? user = await loginUsingEmailPassword(
-                      email: _emailController.text,
-                      password: _pwdController.text,
-                      context: context);
-                  print(user);
+              child: RedButton(
+            buttonText: "LOGIN",
+            onPressed: () async {
+              User? user = await loginUsingEmailPassword(
+                  email: _emailController.text,
+                  password: _pwdController.text,
+                  context: context);
 
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => RestaurantListPage()));
-                  //NUOVA SCHERMATA
-                },
-                child: const Text(
-                  "LogIn",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-              ))
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => RestaurantListPage()));
+            },
+          ))
         ],
       ),
     );

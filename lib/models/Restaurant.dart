@@ -27,20 +27,20 @@ class RestaurantModel {
     required this.proprietarioR
   });
 
-  factory RestaurantModel.fromJson(Map<String, dynamic> json){
+  factory RestaurantModel.fromMap(Map<dynamic, dynamic> map){
     return RestaurantModel(
-        imageR : json['imageR'],
-        nomeR : json['nomeR'],
-        descrizioneR : json['descrizioneR'],
-        indirizzoR : json['indirizzoR'],
-        orarioinizioR : json['orarioinizioR'],
-        orariofineR : json['orariofineR'],
-        telefonoR : json['telefonoR'],
-        tipoCiboR : json['tipoCiboR'],
-        veganR : json['veganR'],
-        ratingR : json['imageR'],
-        idR : json['idR'],
-        proprietarioR : json['proprietarioR']);
+        imageR : map['imageR'],
+        nomeR : map['nomeR'],
+        descrizioneR : map['descrizioneR'],
+        indirizzoR : map['indirizzoR'],
+        orarioinizioR : map['orarioinizioR'],
+        orariofineR : map['orariofineR'],
+        telefonoR : map['telefonoR'],
+        tipoCiboR : map['tipoCiboR'],
+        veganR : map['veganR'],
+        ratingR : map['imageR'],
+        idR : map['idR'],
+        proprietarioR : map['proprietarioR']);
   }
 
 }

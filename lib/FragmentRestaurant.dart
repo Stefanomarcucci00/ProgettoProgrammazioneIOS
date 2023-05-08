@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
@@ -23,44 +22,14 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
   }
 
   Future<List<RestaurantModel>> getRestaurantList() async {
-    List<RestaurantModel> restaurantList = []; // lista di ristoranti vuota
+    final List<RestaurantModel> restaurantList = []; // lista di ristoranti vuota
 
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('Ristoranti')
-        .get(); // prende tutti i documenti dalla collezione 'ristoranti'
+    final snapshot = await FirebaseDatabase.instance.ref('Ristoranti').get();
 
-    querySnapshot.docs.forEach((doc) {
-      // cicla su tutti i documenti
-      String image = doc.get('imageR');
-      String nome = doc.get('nomeR'); // prende il valore del campo 'nome'
-      String descrizione =
-          doc.get('descrizioneR'); // prende il valore del campo 'descrizione'
-      String indirizzo = doc.get('indirizzoR');
-      String orarioinizio = doc.get('orarioinizioR');
-      String orariofine = doc.get('orariofineR');
-      String telefono = doc.get('telefonoR');
-      String tipoCibo = doc.get('tipoCiboR');
-      String vegan = doc.get('veganR');
-      String rating = doc.get('ratingR');
-      String id = doc.get('idR');
-      String proprietario = doc.get('proprietarioR');
-
-      RestaurantModel restaurant = RestaurantModel(
-          imageR: image,
-          nomeR: nome,
-          descrizioneR: descrizione,
-          indirizzoR: indirizzo,
-          orarioinizioR: orarioinizio,
-          orariofineR: orariofine,
-          telefonoR: telefono,
-          tipoCiboR: tipoCibo,
-          veganR: vegan,
-          ratingR: rating,
-          idR: id,
-          proprietarioR:
-              proprietario); // crea un nuovo oggetto RestaurantModel con i dati presi dal database
-      restaurantList
-          .add(restaurant); // aggiunge l'oggetto alla lista di ristoranti
+    final map = snapshot.value as Map<dynamic, dynamic>;
+    map.forEach((key, value) {
+      final restaurant = RestaurantModel.fromMap(value);
+      restaurantList.add(restaurant);
     });
 
     return restaurantList; // ritorna la lista di ristoranti

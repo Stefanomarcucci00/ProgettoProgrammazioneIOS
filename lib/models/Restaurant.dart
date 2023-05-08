@@ -12,35 +12,33 @@ class RestaurantModel {
   final String idR;
   final String proprietarioR;
 
-  RestaurantModel({
-    required this.imageR,
-    required this.nomeR,
-    required this.descrizioneR,
-    required this.indirizzoR,
-    required this.orarioinizioR,
-    required this.orariofineR,
-    required this.telefonoR,
-    required this.tipoCiboR,
-    required this.veganR,
-    required this.ratingR,
-    required this.idR,
-    required this.proprietarioR
-  });
+  RestaurantModel(
+      {required this.imageR,
+      required this.nomeR,
+      required this.descrizioneR,
+      required this.indirizzoR,
+      required this.orarioinizioR,
+      required this.orariofineR,
+      required this.telefonoR,
+      required this.tipoCiboR,
+      required this.veganR,
+      required this.ratingR,
+      required this.idR,
+      required this.proprietarioR});
 
-  factory RestaurantModel.fromMap(Map<dynamic, dynamic> map){
+  factory RestaurantModel.fromMap(Map<dynamic, dynamic> map) {
     return RestaurantModel(
-        imageR : map['imageR'],
-        nomeR : map['nomeR'],
-        descrizioneR : map['descrizioneR'],
-        indirizzoR : map['indirizzoR'],
-        orarioinizioR : map['orarioinizioR'],
-        orariofineR : map['orariofineR'],
-        telefonoR : map['telefonoR'],
-        tipoCiboR : map['tipoCiboR'],
-        veganR : map['veganR'],
-        ratingR : map['imageR'],
-        idR : map['idR'],
-        proprietarioR : map['proprietarioR']);
+        imageR: map['imageR'],
+        nomeR: map['nomeR'],
+        descrizioneR: map['descrizioneR'],
+        indirizzoR: map['indirizzoR'],
+        orarioinizioR: map['orarioinizioR'],
+        orariofineR: map['orariofineR'],
+        telefonoR: map['telefonoR'],
+        tipoCiboR: map['tipoCiboR'],
+        veganR: map['veganR'],
+        ratingR: map['imageR'],
+        idR: map['idR'],
+        proprietarioR: map['proprietarioR']);
   }
-
 }

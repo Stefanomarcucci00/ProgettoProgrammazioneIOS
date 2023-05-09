@@ -5,11 +5,13 @@ import 'PageLogin.dart';
 import 'PageRegistrati.dart';
 
 class PageIntro extends StatelessWidget {
+  const PageIntro({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/background_splash.jpg'),
             fit: BoxFit.cover,
@@ -18,8 +20,8 @@ class PageIntro extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/Logo.png'),
-            SizedBox(height: 50),
+            Image.asset('assets/images/Logo.png', scale: 7,),
+            const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -27,15 +29,15 @@ class PageIntro extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => PageLogin()),
                 );
               },
-              child: Text('Login', style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
-                primary: Colors.red,
+                backgroundColor: Colors.red,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
+              child: const Text('Login', style: TextStyle(color: Colors.white)),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -43,7 +45,7 @@ class PageIntro extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => PageRegister()),
                 );
               },
-              child: Text('Non sei registrato? Clicca qui!',
+              child: const Text('Non sei registrato? Clicca qui!',
                   style: TextStyle(color: Colors.red)),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
@@ -33,9 +34,20 @@ class _PageRistorantiState extends State<PageRistoranti> {
     });
     return restaurantList; // ritorna la lista di ristoranti
   }
+  //LOGOUT
+  void signUserOut(){
+    FirebaseAuth.instance.signOut();
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(actions: [
+        IconButton(
+            onPressed: signUserOut,
+            icon: Icon(Icons.logout),
+        )
+        ],
+      ),
       body: FutureBuilder<List<RestaurantModel>>(
         future: restaurantList,
         // passa la variabile Future alla funzione FutureBuilder

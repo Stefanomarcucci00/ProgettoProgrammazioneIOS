@@ -2,32 +2,76 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:progetto_programmazione_ios/PageRistoranti.dart';
+import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
-class PageLogin extends StatelessWidget {
-  static Future<User?> loginUsingEmailPassword(
-      {required String email,
-      required String password,
-      required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
+class PageLogin extends StatefulWidget {
+  PageLogin({super.key});
+
+  @override
+  State<PageLogin> createState() => _PageLoginState();
+}
+
+class _PageLoginState extends State<PageLogin> {
+  final _emailController = TextEditingController();
+  final _pwdController = TextEditingController();
+
+  void signUserIn() async {
+    //loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    //tentativo signin
     try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      user = userCredential.user;
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text, password: _pwdController.text);
+      //pop loading circle
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {
-        print("Nessun utente registrato con queste credenziali");
+      //pop loading circle
+      Navigator.pop(context);
+      //email errata
+      if (e.code == 'user-not-found') {
+        wrongEmailMessage();
+      }
+      //pop loading circle
+      Navigator.pop(context);
+      //password errata
+      if (e.code == 'wrong-password') {
+        wrongPasswordMessage();
       }
     }
-    return user;
+  }
+
+  void wrongEmailMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('email errata'),
+        );
+      },
+    );
+  }
+
+  void wrongPasswordMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('password errata'),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _pwdController = TextEditingController();
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -54,24 +98,8 @@ class PageLogin extends StatelessWidget {
               obscureText: true,
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                User? user = await loginUsingEmailPassword(
-                    email: _emailController.text,
-                    password: _pwdController.text,
-                    context: context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PageRistoranti()),
-                );
-              },
-              child: Text('Entra', style: TextStyle(color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
+            SignInbtn(
+              onTap: signUserIn,
             ),
           ],
         ),

@@ -1,10 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto_programmazione_ios/Intro/PageIntro.dart';
-import 'package:progetto_programmazione_ios/PageRistoranti.dart';
 import 'package:progetto_programmazione_ios/firebase_options.dart';
-import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +9,6 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   runApp(const MyApp());
 }
 

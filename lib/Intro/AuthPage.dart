@@ -22,12 +22,10 @@ class _AuthPageState extends State<AuthPage> {
         //UTENTE LOGGATO
         if (snapshot.hasData) {
           return PageRistoranti();
-          print('logged');
         }
         //UTENTE NON LOGGATO
         else {
           return PageLogin();
-          print('not logged');
         }
       },
     ));

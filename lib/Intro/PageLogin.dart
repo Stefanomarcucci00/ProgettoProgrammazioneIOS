@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:progetto_programmazione_ios/PageRistoranti.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
 class PageLogin extends StatefulWidget {
@@ -81,23 +80,67 @@ class _PageLoginState extends State<PageLogin> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: 'Email',
+            //SERVE PER OCCUPARE SPAZIO COME GAPFILLER
+            const SizedBox(height: 50),
+            //WELCOME
+            Text(
+              'Benvenuto su Coockade',
+              style: TextStyle(
+                color: Colors.red[700],
+                fontSize: 16,
               ),
             ),
-            TextFormField(
-              controller: _pwdController,
-              decoration: InputDecoration(
-                labelText: 'Password',
+
+            const SizedBox(height: 25),
+            //textfiel email
+            MyTextField(
+                controller: _emailController,
+                hintText: 'email',
+                obscureText: false),
+            //textfiel pwd
+            MyTextField(
+                controller: _pwdController,
+                hintText: 'password',
+                obscureText: true),
+
+            const SizedBox(height: 10),
+            //pwd dimenticata?
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                Text(
+                  'password dimenticata?',
+                  style: TextStyle(color: Colors.red[600]),
+                  ),
+                ],
               ),
-              obscureText: true,
             ),
-            SizedBox(height: 20),
-            SignInbtn(
+
+            const SizedBox(height: 25),
+
+            Btn(
               onTap: signUserIn,
+            ),
+
+            //NON REGISTRATO?
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Non sei registrato?',
+                    style: TextStyle(color: Colors.red[600]),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    'Clicca qui',
+                    style: TextStyle(color: Colors.blue[600]),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

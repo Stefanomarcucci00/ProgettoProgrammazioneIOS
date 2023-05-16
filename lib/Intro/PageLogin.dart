@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:progetto_programmazione_ios/PageRistoranti.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
@@ -25,7 +24,6 @@ class _PageLoginState extends State<PageLogin> {
         );
       },
     );
-
     //tentativo signin
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -74,7 +72,7 @@ class _PageLoginState extends State<PageLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/background_splash.jpg'),
             fit: BoxFit.cover,

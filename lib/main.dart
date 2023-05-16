@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:progetto_programmazione_ios/Intro/AuthPage.dart';
 import 'package:progetto_programmazione_ios/Intro/PageIntro.dart';
 import 'package:progetto_programmazione_ios/firebase_options.dart';
 
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
         future: _initializeFirebase(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return PageIntro();
+            return AuthPage();
           }
           return const Center(
             child: CircularProgressIndicator(),

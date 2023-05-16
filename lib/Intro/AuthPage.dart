@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto_programmazione_ios/Intro/PageLogin.dart';
 import 'package:progetto_programmazione_ios/PageRistoranti.dart';
-import 'package:progetto_programmazione_ios/main.dart';
 
 import 'PageRegistrati.dart';
 
@@ -23,10 +22,12 @@ class _AuthPageState extends State<AuthPage> {
         //UTENTE LOGGATO
         if (snapshot.hasData) {
           return PageRistoranti();
+          print('logged');
         }
         //UTENTE NON LOGGATO
         else {
           return PageLogin();
+          print('not logged');
         }
       },
     ));

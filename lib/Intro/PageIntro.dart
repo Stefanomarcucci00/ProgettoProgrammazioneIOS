@@ -7,6 +7,7 @@ import 'PageRegistrati.dart';
 class PageIntro extends StatelessWidget {
   const PageIntro({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

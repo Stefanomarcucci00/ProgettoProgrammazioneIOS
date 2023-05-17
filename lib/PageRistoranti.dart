@@ -30,6 +30,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
     restaurantList = getRestaurantList();
   }
 
+
   Future<List<RestaurantModel>> getRestaurantList() async {
     final List<RestaurantModel> restaurantList =
         []; // lista di ristoranti vuota

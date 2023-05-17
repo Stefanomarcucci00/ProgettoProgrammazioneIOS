@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
+import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
 class PageRistoranti extends StatefulWidget {
   final User? user;
@@ -46,9 +47,12 @@ class _PageRistorantiState extends State<PageRistoranti> {
     String email = user!.email.toString();
 
     return Scaffold(
+      appBar: const CustomAppBar( pageName: 'Ristoranti', backArrow: false),
       body: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const SizedBox(height: 16,),
+          const SizedBox(
+            height: 16,
+          ),
           /*
           Text(email),
           const SizedBox(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:progetto_programmazione_ios/PageCarrello.dart';
+import 'package:progetto_programmazione_ios/PageQR_Code.dart';
 
 class RedButton extends StatelessWidget {
   final String buttonText;
@@ -27,10 +29,11 @@ class MyTextField extends StatelessWidget {
   final String hintText;
   final bool obscureText;
 
-  const MyTextField({Key? key,
-    this.controller,
-    required this.hintText,
-    required this.obscureText})
+  const MyTextField(
+      {Key? key,
+      this.controller,
+      required this.hintText,
+      required this.obscureText})
       : super(key: key);
 
   @override
@@ -58,22 +61,33 @@ class MyTextField extends StatelessWidget {
   }
 }
 
-class CustomAppBar extends StatelessWidget {
-
+class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   final String pageName;
-  final VoidCallback onPressed;
-
-  const CustomAppBar({super.key, required this.pageName, required this.onPressed});
+  final bool backArrow;
+  
+  const CustomAppBar({super.key, required this.pageName, required this.backArrow});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: backArrow,
       title: Text(pageName),
       actions: <Widget>[
-
+        IconButton(
+          icon: const Icon(Icons.shopping_cart),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PageCarrello())),
+          color: Colors.white,
+        ),
+        IconButton(
+          icon: const Icon(Icons.qr_code),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PageQR_Code())),
+          color: Colors.white,
+        )
       ],
       backgroundColor: Colors.red,
     );
   }
 
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

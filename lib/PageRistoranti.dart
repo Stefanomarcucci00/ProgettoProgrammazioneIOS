@@ -6,6 +6,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
+import 'Intro/PageIntro.dart';
+import 'PageProfilo.dart';
+
 class PageRistoranti extends StatefulWidget {
   final User? user;
 
@@ -16,6 +19,7 @@ class PageRistoranti extends StatefulWidget {
 }
 
 class _PageRistorantiState extends State<PageRistoranti> {
+
   late Future<List<RestaurantModel>>
       restaurantList; // definisce una variabile Future di tipo List<RestaurantModel>
 
@@ -24,6 +28,24 @@ class _PageRistorantiState extends State<PageRistoranti> {
   _PageRistorantiState(this.user);
 
   final User? user;
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0: Navigator.push(context, MaterialPageRoute(builder: (context) => PageRistoranti(user: user)));
+      break;
+      case 1: Navigator.push(context, MaterialPageRoute(builder: (context) => PageProfilo()));
+      break;
+      case 2: Navigator.push(context, MaterialPageRoute(builder: (context) => const PageIntro()));
+      break;
+    }
+
+  }
 
   @override
   void initState() {
@@ -47,7 +69,11 @@ class _PageRistorantiState extends State<PageRistoranti> {
     String email = user!.email.toString();
 
     return Scaffold(
-      appBar: const CustomAppBar( pageName: 'Ristoranti', backArrow: false),
+      appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: false),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
       body: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const SizedBox(

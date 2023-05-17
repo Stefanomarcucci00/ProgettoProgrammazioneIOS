@@ -6,6 +6,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
+import 'Intro/PageIntro.dart';
+import 'PageProfilo.dart';
+
 class PageRistoranti extends StatefulWidget {
   final User? user;
 
@@ -24,6 +27,25 @@ class _PageRistorantiState extends State<PageRistoranti> {
   _PageRistorantiState(this.user);
 
   final User? user;
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0: Navigator.push(context, MaterialPageRoute(builder: (context) => PageRistoranti(user: user)));
+      break;
+      case 1: Navigator.push(context, MaterialPageRoute(builder: (context) => PageProfilo()));
+      break;
+      case 2: Navigator.push(context, MaterialPageRoute(builder: (context) => const PageIntro()));
+      break;
+    }
+
+  }
+
 
   @override
   void initState() {

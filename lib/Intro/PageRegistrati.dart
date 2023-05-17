@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:progetto_programmazione_ios/Intro/PageLogin.dart';
 
 import '../theme/widgets.dart';
 
@@ -9,14 +10,12 @@ class PageRegister extends StatefulWidget {
 }
 
 class _PageRegisterState extends State<PageRegister> {
-
   final _nomeController = TextEditingController();
   final _cognomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _pwdController = TextEditingController();
   final _pwdConfirmController = TextEditingController();
   final _telController = TextEditingController();
-
 
   //FUNZIONE REGISTRA
   void register() async {
@@ -86,14 +85,29 @@ class _PageRegisterState extends State<PageRegister> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           MyTextField(controller: _emailController,hintText: "email", obscureText: false),
+            MyTextField(
+                controller: _emailController,
+                hintText: "Email",
+                obscureText: false),
             SizedBox(height: 10),
-            MyTextField(controller: _pwdController,hintText: "password", obscureText: true),
+            MyTextField(
+                controller: _pwdController,
+                hintText: "Password",
+                obscureText: true),
             SizedBox(height: 10),
-            MyTextField(controller: _pwdConfirmController,hintText: "conferma password", obscureText: true),
+            MyTextField(
+                controller: _pwdConfirmController,
+                hintText: "Conferma password",
+                obscureText: true),
             SizedBox(height: 20),
-            Btn(
-              onTap: register,
+            RedButton(
+              buttonText: 'Registrati',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PageLogin()),
+                );
+              },
             ),
           ],
         ),

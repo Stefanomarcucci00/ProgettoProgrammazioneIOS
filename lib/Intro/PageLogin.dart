@@ -68,17 +68,11 @@ class PageLogin extends StatelessWidget {
             const SizedBox(height: 7),
             MyTextField(controller: pwdController,hintText: "password", obscureText: true),
             const SizedBox(height: 20),
-            ElevatedButton(
+            RedButton(
+              buttonText: 'Entra',
               onPressed: () async {
                 loginUser(emailController.text, pwdController.text, context);
               },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              child: const Text('Entra', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),

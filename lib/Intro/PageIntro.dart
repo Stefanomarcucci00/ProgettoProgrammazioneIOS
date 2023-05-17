@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import '../theme/widgets.dart';
 import 'PageLogin.dart';
 import 'PageRegistrati.dart';
 
@@ -29,20 +30,14 @@ class PageIntro extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 50),
-              ElevatedButton(
+              RedButton(
+                buttonText: 'Login',
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => PageLogin()),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text('Login', style: TextStyle(color: Colors.white)),
               ),
               const SizedBox(height: 20),
               TextButton(

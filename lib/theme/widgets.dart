@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-//BEGIN BUTTON splash page
 class RedButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
@@ -23,49 +22,15 @@ class RedButton extends StatelessWidget {
   }
 }
 
-//BOTTONE SIGN.IN
-class Btn extends StatelessWidget {
-  final Function()? onTap;
-
-  const Btn({super.key, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(25),
-        margin: const EdgeInsets.symmetric(horizontal: 25),
-        decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: const Center(
-          child: Text(
-            "Sign In",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-//TEXTFIELD
 class MyTextField extends StatelessWidget {
   final controller;
   final String hintText;
   final bool obscureText;
 
-  const MyTextField(
-      {Key? key,
-      this.controller,
-      required this.hintText,
-      required this.obscureText})
+  const MyTextField({Key? key,
+    this.controller,
+    required this.hintText,
+    required this.obscureText})
       : super(key: key);
 
   @override
@@ -73,9 +38,11 @@ class MyTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
+        style: const TextStyle(color: Colors.white),
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
+          hintStyle: const TextStyle(color: Colors.white),
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red),
           ),
@@ -89,4 +56,24 @@ class MyTextField extends StatelessWidget {
       ),
     );
   }
+}
+
+class CustomAppBar extends StatelessWidget {
+
+  final String pageName;
+  final VoidCallback onPressed;
+
+  const CustomAppBar({super.key, required this.pageName, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(pageName),
+      actions: <Widget>[
+
+      ],
+      backgroundColor: Colors.red,
+    );
+  }
+
 }

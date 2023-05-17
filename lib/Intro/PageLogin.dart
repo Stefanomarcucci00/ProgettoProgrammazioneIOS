@@ -23,7 +23,7 @@ class PageLogin extends StatelessWidget {
           fontSize: 16.0);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => PageRistoranti(user: user,)),
+        MaterialPageRoute(builder: (context) => PageRistoranti()),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

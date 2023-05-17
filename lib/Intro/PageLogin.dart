@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progetto_programmazione_ios/PageRistoranti.dart';
+import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
 class PageLogin extends StatelessWidget {
   const PageLogin({super.key});
@@ -63,20 +64,9 @@ class PageLogin extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              controller: emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-              ),
-            ),
-            TextFormField(
-              controller: pwdController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-              ),
-              obscureText: true,
-            ),
+            MyTextField(controller: emailController,hintText: "email", obscureText: false),
+            const SizedBox(height: 7),
+            MyTextField(controller: pwdController,hintText: "password", obscureText: true),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {

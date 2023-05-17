@@ -16,7 +16,7 @@ class PageRistoranti extends StatefulWidget {
 
 class _PageRistorantiState extends State<PageRistoranti> {
   late Future<List<RestaurantModel>>
-  restaurantList; // definisce una variabile Future di tipo List<RestaurantModel>
+      restaurantList; // definisce una variabile Future di tipo List<RestaurantModel>
 
   DatabaseReference firebaseRef = FirebaseDatabase.instance.ref();
 
@@ -26,13 +26,13 @@ class _PageRistorantiState extends State<PageRistoranti> {
 
   @override
   void initState() {
-    super.initState();
     restaurantList = getRestaurantList();
+    super.initState();
   }
 
   Future<List<RestaurantModel>> getRestaurantList() async {
     final List<RestaurantModel> restaurantList =
-    []; // lista di ristoranti vuota
+        []; // lista di ristoranti vuota
     final snapshot = await FirebaseDatabase.instance.ref('Ristoranti').get();
     final map = snapshot.value as Map<dynamic, dynamic>;
     map.forEach((key, value) {
@@ -48,8 +48,13 @@ class _PageRistorantiState extends State<PageRistoranti> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(email),
           const SizedBox(height: 16,),
+          /*
+          Text(email),
+          const SizedBox(
+            height: 16,
+          ),
+           */
           FutureBuilder(
             future: restaurantList,
             builder: (BuildContext context,

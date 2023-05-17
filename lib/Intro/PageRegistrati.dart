@@ -14,6 +14,7 @@ class _PageRegisterState extends State<PageRegister> {
   final _cognomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _pwdController = TextEditingController();
+  final _pwdConfirmController = TextEditingController();
   final _telController = TextEditingController();
 
 
@@ -76,7 +77,7 @@ class _PageRegisterState extends State<PageRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/background_splash.jpg'),
             fit: BoxFit.cover,
@@ -85,20 +86,11 @@ class _PageRegisterState extends State<PageRegister> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: 'Email',
-              ),
-            ),
-            TextFormField(
-              controller: _pwdController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-              ),
-              obscureText: true,
-            ),
+           MyTextField(controller: _emailController,hintText: "email", obscureText: false),
+            SizedBox(height: 10),
+            MyTextField(controller: _pwdController,hintText: "password", obscureText: true),
+            SizedBox(height: 10),
+            MyTextField(controller: _pwdConfirmController,hintText: "conferma password", obscureText: true),
             SizedBox(height: 20),
             Btn(
               onTap: register,

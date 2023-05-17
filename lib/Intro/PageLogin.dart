@@ -8,6 +8,7 @@ class PageLogin extends StatelessWidget {
 
 
   Future<void> loginUser(
+
       String email, String password, BuildContext context) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -23,7 +24,7 @@ class PageLogin extends StatelessWidget {
           fontSize: 16.0);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => PageRistoranti(user: user,)),
+        MaterialPageRoute(builder: (context) => PageRistoranti()),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

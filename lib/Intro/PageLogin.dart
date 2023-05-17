@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progetto_programmazione_ios/PageRistoranti.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
+import 'PageRegistrati.dart';
+
 class PageLogin extends StatelessWidget {
   const PageLogin({super.key});
 
@@ -65,7 +67,7 @@ class PageLogin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MyTextField(controller: emailController,hintText: "email", obscureText: false),
-            const SizedBox(height: 7),
+            const SizedBox(height: 10),
             MyTextField(controller: pwdController,hintText: "password", obscureText: true),
             const SizedBox(height: 20),
             RedButton(
@@ -73,6 +75,18 @@ class PageLogin extends StatelessWidget {
               onPressed: () async {
                 loginUser(emailController.text, pwdController.text, context);
               },
+            ),
+
+            const SizedBox(height: 20),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PageRegister()),
+                );
+              },
+              child: const Text('Non sei registrato? Clicca qui!',
+                  style: TextStyle(color: Colors.red)),
             ),
           ],
         ),

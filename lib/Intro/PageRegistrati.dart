@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:progetto_programmazione_ios/Intro/PageLogin.dart';
-
 import '../theme/widgets.dart';
+import 'PageLogin.dart';
 
 class PageRegister extends StatefulWidget {
   @override
@@ -10,15 +9,15 @@ class PageRegister extends StatefulWidget {
 }
 
 class _PageRegisterState extends State<PageRegister> {
-  final _nomeController = TextEditingController();
-  final _cognomeController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _pwdController = TextEditingController();
-  final _pwdConfirmController = TextEditingController();
-  final _telController = TextEditingController();
+  final nomeController = TextEditingController();
+  final cognomeController = TextEditingController();
+  final emailController = TextEditingController();
+  final pwdController = TextEditingController();
+  final pwdConfirmController = TextEditingController();
+  final telController = TextEditingController();
 
   //FUNZIONE REGISTRA
-  void register() async {
+  Future<void> registerUser(String email, String password,String pwdConfirm, BuildContext context) async {
     //loading circle
     showDialog(
       context: context,
@@ -31,7 +30,7 @@ class _PageRegisterState extends State<PageRegister> {
     //tentativo signin
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text, password: _pwdController.text);
+          email: emailController.text, password: pwdController.text);
       //pop loading circle
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
@@ -86,28 +85,40 @@ class _PageRegisterState extends State<PageRegister> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MyTextField(
-                controller: _emailController,
-                hintText: "Email",
+                controller: emailController,
+                hintText: "email",
                 obscureText: false),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             MyTextField(
-                controller: _pwdController,
-                hintText: "Password",
+                controller: pwdController,
+                hintText: "password",
                 obscureText: true),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             MyTextField(
-                controller: _pwdConfirmController,
-                hintText: "Conferma password",
+                controller: pwdConfirmController,
+                hintText: "conferma password",
                 obscureText: true),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             RedButton(
               buttonText: 'Registrati',
+              onPressed: () async{
+                registerUser(emailController.text, pwdController.text,pwdConfirmController.text, context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PageLogin()),
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+            TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => PageLogin()),
                 );
               },
+              child: const Text('Gia registrato? Clicca quiper il login!',
+                  style: TextStyle(color: Colors.red)),
             ),
           ],
         ),

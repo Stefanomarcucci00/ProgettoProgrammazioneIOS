@@ -1,62 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:progetto_programmazione_ios/PageRistoranti.dart';
 
 class PageLogin extends StatelessWidget {
-  const PageLogin({super.key});
-
-
-  Future<void> loginUser(
-
-      String email, String password, BuildContext context) async {
+  static Future<User?> loginUsingEmailPassword(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      User? user = userCredential.user;
-      Fluttertoast.showToast(
-          msg: "Login effettuato con successo.",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PageRistoranti()),
-      );
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      user = userCredential.user;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        Fluttertoast.showToast(
-            msg: "Utente non registrato.",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      } else if (e.code == 'wrong-password') {
-        Fluttertoast.showToast(
-            msg: "Password errata.",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
+      if (e.code == "user-not-found") {
+        print("Nessun utente registrato con queste credenziali");
       }
     }
+    return user;
   }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController pwdController = TextEditingController();
+
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _pwdController = TextEditingController();
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/background_splash.jpg'),
             fit: BoxFit.cover,
@@ -66,31 +40,38 @@ class PageLogin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
-              controller: emailController,
+              controller: _emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Email',
               ),
             ),
             TextFormField(
-              controller: pwdController,
-              decoration: const InputDecoration(
+              controller: _pwdController,
+              decoration: InputDecoration(
                 labelText: 'Password',
               ),
               obscureText: true,
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                loginUser(emailController.text, pwdController.text, context);
+                User? user = await loginUsingEmailPassword(
+                    email: _emailController.text,
+                    password: _pwdController.text,
+                    context: context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PageRistoranti()),
+                );
               },
+              child: Text('Entra', style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 primary: Colors.red,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: const Text('Entra', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),

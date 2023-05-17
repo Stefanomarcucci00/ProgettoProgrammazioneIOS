@@ -6,6 +6,7 @@ import 'package:progetto_programmazione_ios/PageRistoranti.dart';
 class PageLogin extends StatelessWidget {
   const PageLogin({super.key});
 
+
   Future<void> loginUser(
       String email, String password, BuildContext context) async {
     try {

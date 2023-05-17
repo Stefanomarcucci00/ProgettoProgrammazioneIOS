@@ -47,44 +47,43 @@ class _PageRistorantiState extends State<PageRistoranti> {
     String email = user!.email.toString();
 
     return Scaffold(
-      appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: false),
+      appBar: const CustomAppBar( pageName: 'Ristoranti', backArrow: false),
       body: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const SizedBox(
-            height: 10,
+            height: 16,
           ),
+          /*
           Text(email),
           const SizedBox(
-            height: 25,
+            height: 16,
           ),
-          SizedBox(
-            height: 400,
-            child: FutureBuilder(
-              future: restaurantList,
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<RestaurantModel>> snapshot) {
-                if (snapshot.hasData) {
-                  return Expanded(
-                    child: SizedBox(
-                      height: 200.0,
-                      child: ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(snapshot.data![index].nomeR),
-                            subtitle: Text(snapshot.data![index].descrizioneR),
-                          );
-                        },
-                      ),
+           */
+          FutureBuilder(
+            future: restaurantList,
+            builder: (BuildContext context,
+                AsyncSnapshot<List<RestaurantModel>> snapshot) {
+              if (snapshot.hasData) {
+                return Expanded(
+                  child: SizedBox(
+                    height: 200.0,
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          title: Text(snapshot.data![index].nomeR),
+                          subtitle: Text(snapshot.data![index].descrizioneR),
+                        );
+                      },
                     ),
-                  );
-                } else if (snapshot.hasError) {
-                  return const Text("Errore durante il caricamento dei dati.");
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return const Text("Errore durante il caricamento dei dati.");
+              } else {
+                return const CircularProgressIndicator();
+              }
+            },
           ),
         ]),
       ),

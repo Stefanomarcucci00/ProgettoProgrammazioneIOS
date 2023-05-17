@@ -59,31 +59,34 @@ class _PageRistorantiState extends State<PageRistoranti> {
             height: 16,
           ),
            */
-          FutureBuilder(
-            future: restaurantList,
-            builder: (BuildContext context,
-                AsyncSnapshot<List<RestaurantModel>> snapshot) {
-              if (snapshot.hasData) {
-                return Expanded(
-                  child: SizedBox(
-                    height: 200.0,
-                    child: ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          title: Text(snapshot.data![index].nomeR),
-                          subtitle: Text(snapshot.data![index].descrizioneR),
-                        );
-                      },
+          SizedBox(
+            height: 400,
+            child: FutureBuilder(
+              future: restaurantList,
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<RestaurantModel>> snapshot) {
+                if (snapshot.hasData) {
+                  return Expanded(
+                    child: SizedBox(
+                      height: 200.0,
+                      child: ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text(snapshot.data![index].nomeR),
+                            subtitle: Text(snapshot.data![index].descrizioneR),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return const Text("Errore durante il caricamento dei dati.");
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
+                  );
+                } else if (snapshot.hasError) {
+                  return const Text("Errore durante il caricamento dei dati.");
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
           ),
         ]),
       ),

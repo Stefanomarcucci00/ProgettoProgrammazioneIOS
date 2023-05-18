@@ -24,9 +24,8 @@ class _PageRistorantiState extends State<PageRistoranti> {
 
   DatabaseReference firebaseRef = FirebaseDatabase.instance.ref();
 
-  _PageRistorantiState(this.user);
-
   final User? user;
+  _PageRistorantiState(this.user);
 
   int _selectedIndex = 0;
 
@@ -36,16 +35,22 @@ class _PageRistorantiState extends State<PageRistoranti> {
     });
 
     switch (index) {
-      case 0: Navigator.push(context, MaterialPageRoute(builder: (context) => PageRistoranti(user: user)));
-      break;
-      case 1: Navigator.push(context, MaterialPageRoute(builder: (context) => PageProfilo()));
-      break;
-      case 2: Navigator.push(context, MaterialPageRoute(builder: (context) => const PageIntro()));
-      break;
+      case 0:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PageRistoranti(user: user)));
+        break;
+      case 1:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageProfilo(user: user,)));
+        break;
+      case 2:
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const PageIntro()));
+        break;
     }
-
   }
-
 
   @override
   void initState() {
@@ -66,10 +71,12 @@ class _PageRistorantiState extends State<PageRistoranti> {
   }
 
   Widget build(BuildContext context) {
-    String email = user!.email.toString();
-
     return Scaffold(
-      appBar: const CustomAppBar( pageName: 'Ristoranti', backArrow: false),
+      appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: false),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
       body: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const SizedBox(

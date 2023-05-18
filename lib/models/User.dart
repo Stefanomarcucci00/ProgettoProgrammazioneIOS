@@ -30,5 +30,4 @@ class UserModel {
       Livello: map['Livello'],
     );
   }
-
 }

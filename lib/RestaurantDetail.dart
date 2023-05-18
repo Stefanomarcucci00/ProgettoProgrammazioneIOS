@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 
+import 'models/Restaurant.dart';
+
 class RestaurantDetail extends StatefulWidget {
 
-  final int index;
+  final RestaurantModel restaurant;
 
-  const RestaurantDetail(this.index, {super.key});
+  const RestaurantDetail(this.restaurant, {super.key});
 
 
   @override
-  _RestaurantDetailState createState() => _RestaurantDetailState(index);
+  _RestaurantDetailState createState() => _RestaurantDetailState(restaurant);
 }
 
 class _RestaurantDetailState extends State<RestaurantDetail> {
-  final int index;
+  final RestaurantModel restaurant;
 
-  _RestaurantDetailState(this.index);
+  _RestaurantDetailState(this.restaurant);
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: Text(index.toString())
+        body: Text(restaurant.nomeR.toString())
     );
   }
 

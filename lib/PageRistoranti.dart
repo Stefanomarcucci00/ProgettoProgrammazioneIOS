@@ -4,10 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
+import 'package:progetto_programmazione_ios/screens/Search_bar.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
-
 import 'Intro/PageIntro.dart';
 import 'PageProfilo.dart';
+import 'RestaurantDetail.dart';
 
 class PageRistoranti extends StatefulWidget {
   final User? user;
@@ -71,6 +72,9 @@ class _PageRistorantiState extends State<PageRistoranti> {
   }
 
   Widget build(BuildContext context) {
+    //CI FORNISCE height e width della pagina
+    Size size=MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: false),
       bottomNavigationBar: CustomBottomNavigationBar(
@@ -78,45 +82,47 @@ class _PageRistorantiState extends State<PageRistoranti> {
         onItemTapped: _onItemTapped,
       ),
       body: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const SizedBox(
-            height: 16,
-          ),
-          /*
-          Text(email),
-          const SizedBox(
-            height: 16,
-          ),
-           */
-          SizedBox(
-            height: 400,
-            child: FutureBuilder(
-              future: restaurantList,
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<RestaurantModel>> snapshot) {
-                if (snapshot.hasData) {
-                  return Expanded(
-                    child: SizedBox(
-                      height: 200.0,
-                      child: ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(snapshot.data![index].nomeR),
-                            subtitle: Text(snapshot.data![index].descrizioneR),
-                          );
-                        },
-                      ),
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return const Text("Errore durante il caricamento dei dati.");
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),
-          ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Search_bar(size: size),
+              SizedBox(
+                child: FutureBuilder(
+                  future: restaurantList,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<RestaurantModel>> snapshot) {
+                      if (snapshot.hasData) {
+                        return Expanded(
+                          child: SizedBox(
+                            height: 200.0,
+                            child: ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                    child: ListTile(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RestaurantDetail(snapshot.data![index]),
+                                            ));
+                                      },
+                                      title: Text(snapshot.data![index].nomeR),
+                                      subtitle: Text(snapshot.data![index].descrizioneR),
+                                    ));
+
+                              },
+                            ),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return const Text("Errore durante il caricamento dei dati.");
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    }
+                ),
+              )
         ]),
       ),
     );

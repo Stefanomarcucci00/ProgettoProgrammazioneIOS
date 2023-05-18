@@ -21,12 +21,12 @@ class Search_bar extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       onChanged: (value) {},
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "  Cerca",
                         hintStyle: TextStyle(color: Colors.red),
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
-                        suffixIcon: const Icon(Icons.search),
+                        suffixIcon: Icon(Icons.search),
                       ),
                     ),
                   ),

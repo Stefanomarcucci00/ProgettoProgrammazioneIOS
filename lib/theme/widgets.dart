@@ -129,3 +129,104 @@ class CustomBottomNavigationBar extends StatelessWidget {
     );
   }
 }
+
+class CardRistorante extends StatelessWidget {
+  final String copertina;
+  final String nomeRist;
+  final String tipoCibo;
+  final String rating;
+  final String descrizione;
+
+  final VoidCallback onPressed;
+
+  const CardRistorante(
+      {
+        super.key,
+        required this.copertina,
+        required this.nomeRist,
+        required this.tipoCibo,
+        required this.rating,
+        required this.descrizione,
+        required this.onPressed,
+      });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        // clipBehavior is necessary because, without it, the InkWell's animation
+        // will extend beyond the rounded edges of the [Card] (see https://github.com/flutter/flutter/issues/109776)
+        // This comes with a small performance cost, and you should not set [clipBehavior]
+        // unless you need it.
+        clipBehavior: Clip.hardEdge,
+        child: InkWell(
+          splashColor: Colors.blue.withAlpha(30),
+          onTap: () {
+            //NAVIGA AI DETTAGLI
+            onPressed;
+          },
+          child: SizedBox(
+            width: 300,
+            height: 300,
+            child: Column(
+              children: [
+                Card(
+                  elevation: 5,
+                  child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: copertina != null
+                          ? Image.network(
+                              copertina,
+                              height: 150,
+                              width: 150,
+                            )
+                          : CircularProgressIndicator()),
+                ),
+                Text(
+                  nomeRist,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  tipoCibo,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 14,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow,
+                    ),
+                    Text(
+                      rating,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  descrizione,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

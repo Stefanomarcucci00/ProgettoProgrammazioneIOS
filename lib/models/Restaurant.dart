@@ -7,8 +7,8 @@ class RestaurantModel {
   final String orariofineR;
   final String telefonoR;
   final String tipoCiboR;
-  final veganR;
-  final ratingR;
+  final String veganR;
+  final String ratingR;
   final String idR;
   final String proprietarioR;
 
@@ -37,7 +37,7 @@ class RestaurantModel {
         telefonoR: map['telefonoR'],
         tipoCiboR: map['tipoCiboR'],
         veganR: map['veganR'],
-        ratingR: map['imageR'],
+        ratingR: map['ratingR'],
         idR: map['idR'],
         proprietarioR: map['proprietarioR']);
   }

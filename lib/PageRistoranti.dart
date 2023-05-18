@@ -112,7 +112,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                       RestaurantDetail( snapshot.data![index] )),
+                                                       RestaurantDetail( snapshot.data![index] ,user)),
                                           ),
                                   );
                                 }

@@ -13,7 +13,7 @@ import 'RestaurantDetail.dart';
 class PageRistoranti extends StatefulWidget {
   final User? user;
 
-  const PageRistoranti({super.key, required User? user}) : this.user = user;
+  const PageRistoranti({super.key, this.user});
 
   @override
   _PageRistorantiState createState() => _PageRistorantiState(user);
@@ -104,13 +104,12 @@ class _PageRistorantiState extends State<PageRistoranti> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  RestaurantDetail(snapshot.data![index]),
+                                                  RestaurantDetail(snapshot.data![index], user),
                                             ));
                                       },
                                       title: Text(snapshot.data![index].nomeR),
                                       subtitle: Text(snapshot.data![index].descrizioneR),
                                     ));
-
                               },
                             ),
                           ),

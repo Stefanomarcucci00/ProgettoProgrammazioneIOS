@@ -35,13 +35,13 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
     });
     switch (index) {
       case 0:
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => PageRistoranti(user: user)));
         break;
       case 1:
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => PageProfilo(
@@ -49,7 +49,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                     )));
         break;
       case 2:
-        Navigator.push(context,
+        Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const PageIntro()));
         break;
     }

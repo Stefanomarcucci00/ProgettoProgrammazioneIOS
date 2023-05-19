@@ -39,7 +39,7 @@ class PageIntro extends StatelessWidget {
                       buttonText: 'Login',
                       onPressed: () {
                         if (snapshot.hasData) {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => PageRistoranti(
@@ -57,7 +57,7 @@ class PageIntro extends StatelessWidget {
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => PageRegister()),
                   );

@@ -23,7 +23,7 @@ class PageLogin extends StatelessWidget {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => PageRistoranti(user: user,)),
       );
@@ -80,7 +80,7 @@ class PageLogin extends StatelessWidget {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => PageRegister()),
                 );

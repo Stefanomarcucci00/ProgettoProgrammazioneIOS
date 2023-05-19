@@ -55,7 +55,7 @@ class _PageRegisterState extends State<PageRegister> {
       context: context,
       builder: (context) {
         return const AlertDialog(
-          title: Text('formato email errato'),
+          title: Text('Formato email errato'),
         );
       },
     );
@@ -66,7 +66,7 @@ class _PageRegisterState extends State<PageRegister> {
       context: context,
       builder: (context) {
         return const AlertDialog(
-          title: Text('formato password errato'),
+          title: Text('Formato password errato'),
         );
       },
     );
@@ -87,19 +87,19 @@ class _PageRegisterState extends State<PageRegister> {
           children: [
             MyTextField(
                 controller: emailController,
-                hintText: "email",
+                hintText: "E-mail",
                 obscureText: false,
                 enabled: true),
             const SizedBox(height: 10),
             MyTextField(
                 controller: pwdController,
-                hintText: "password",
+                hintText: "Password",
                 obscureText: true,
                 enabled: true),
             const SizedBox(height: 10),
             MyTextField(
                 controller: pwdConfirmController,
-                hintText: "conferma password",
+                hintText: "Conferma password",
                 obscureText: true,
                 enabled: true),
             const SizedBox(height: 20),
@@ -108,7 +108,7 @@ class _PageRegisterState extends State<PageRegister> {
               onPressed: () async {
                 registerUser(emailController.text, pwdController.text,
                     pwdConfirmController.text, context);
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => PageLogin()),
                 );
@@ -117,12 +117,12 @@ class _PageRegisterState extends State<PageRegister> {
             const SizedBox(height: 10),
             TextButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => PageLogin()),
                 );
               },
-              child: const Text('Gia registrato? Clicca quiper il login!',
+              child: const Text('Già registrato? Clicca qui per effettuare il login!',
                   style: TextStyle(color: Colors.red)),
             ),
           ],

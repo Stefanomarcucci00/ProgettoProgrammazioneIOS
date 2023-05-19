@@ -38,13 +38,13 @@ class _PageRistorantiState extends State<PageRistoranti> {
 
     switch (index) {
       case 0:
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => PageRistoranti(user: user)));
         break;
       case 1:
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => PageProfilo(
@@ -61,7 +61,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0);
-        Navigator.push(context,
+        Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const PageIntro()));
         break;
     }

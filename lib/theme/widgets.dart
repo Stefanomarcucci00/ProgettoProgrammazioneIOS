@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto_programmazione_ios/PageCarrello.dart';
@@ -74,20 +75,28 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return AppBar(
       automaticallyImplyLeading: backArrow,
       title: Text(pageName),
       actions: <Widget>[
         IconButton(
           icon: const Icon(Icons.shopping_cart),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => PageCarrello())),
+          onPressed: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PageCarrello(user: user))),
           color: Colors.white,
         ),
         IconButton(
           icon: const Icon(Icons.qr_code),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => PageQR_Code())),
+          onPressed: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PageQR_Code(
+                        user: user,
+                      ))),
           color: Colors.white,
         )
       ],

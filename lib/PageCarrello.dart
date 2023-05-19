@@ -1,13 +1,68 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
-class PageCarrello extends StatelessWidget {
+import 'Intro/PageIntro.dart';
+import 'PageProfilo.dart';
+import 'PageRistoranti.dart';
+
+class PageCarrello extends StatefulWidget {
+  final User? user;
+
+  const PageCarrello({super.key, this.user});
+
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(pageName: 'Carrello', backArrow: true,),
-    );
+  _PageCarrelloState createState() => _PageCarrelloState(user);
+}
+
+class _PageCarrelloState extends State<PageCarrello> {
+  final User? user;
+
+  _PageCarrelloState(this.user);
+
+  @override
+  void initState() {
+    super.initState();
   }
 
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PageRistoranti(user: user)));
+        break;
+      case 1:
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PageProfilo(
+                      user: user,
+                    )));
+        break;
+      case 2:
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const PageIntro()));
+        break;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: const CustomAppBar(
+          pageName: 'Carrello',
+          backArrow: false,
+        ),
+        bottomNavigationBar: CustomBottomNavigationBar(
+            selectedIndex: _selectedIndex, onItemTapped: _onItemTapped));
+  }
 }

@@ -60,7 +60,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
     String imageUrl = restaurant.imageR.toString();
 
     return Scaffold(
-        appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: false),
+        appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: true),
         bottomNavigationBar: CustomBottomNavigationBar(
           selectedIndex: _selectedIndex,
           onItemTapped: _onItemTapped,

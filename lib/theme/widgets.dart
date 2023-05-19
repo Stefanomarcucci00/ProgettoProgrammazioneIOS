@@ -62,7 +62,7 @@ class MyTextField extends StatelessWidget {
   }
 }
 
-class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String pageName;
   final bool backArrow;
 
@@ -138,8 +138,6 @@ class CardRistorante extends StatelessWidget {
   final String rating;
   final String descrizione;
 
-  final VoidCallback onPressed;
-
   const CardRistorante({
     super.key,
     required this.copertina,
@@ -147,7 +145,6 @@ class CardRistorante extends StatelessWidget {
     required this.tipoCibo,
     required this.rating,
     required this.descrizione,
-    required this.onPressed,
   });
 
   @override
@@ -155,96 +152,92 @@ class CardRistorante extends StatelessWidget {
     return Center(
       child: Card(
         clipBehavior: Clip.hardEdge,
-        child: InkWell(
-          splashColor: Colors.blue.withAlpha(30),
-          onTap: () {
-            onPressed;
-          },
-          child: SizedBox(
-            width: 160,
-            height: 300,
-            child: Column(
-              children: [
-                Card(
-                    elevation: 5,
-                    child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: FutureBuilder(
-                          future: FirebaseStorage.instance
-                              .ref(copertina)
-                              .getDownloadURL(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String> snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Container(
-                                width: 150.0,
-                                height: 150.0,
-                                color: Colors.grey,
-                              );
-                            } else if (snapshot.hasError) {
-                              return Container(
-                                width: 150.0,
-                                height: 150.0,
-                                color: Colors.red,
-                              );
-                            } else {
-                              return Container(
-                                width: 150.0,
-                                height: 150.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  image: DecorationImage(
-                                    image: NetworkImage(snapshot.data!),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                        ),)),
-                Text(
-                  nomeRist,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  tipoCibo,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 14,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.star,
-                      color: Colors.yellow,
+        child: SizedBox(
+          width: 160,
+          height: 275,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: FutureBuilder(
+                      future: FirebaseStorage.instance
+                          .ref(copertina)
+                          .getDownloadURL(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<String> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container(
+                            width: 150.0,
+                            height: 150.0,
+                            color: Colors.grey,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Container(
+                            width: 150.0,
+                            height: 150.0,
+                            color: Colors.red,
+                          );
+                        } else {
+                          return Container(
+                            width: 150.0,
+                            height: 150.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: NetworkImage(snapshot.data!),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        }
+                      },
                     ),
-                    Text(
-                      rating,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
+                  )),
+              Text(
+                nomeRist,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
-                Text(
-                  descrizione,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 14,
+              ),
+              Text(
+                tipoCibo,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 14,
+                ),
+              ),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.star,
+                    color: Colors.yellow,
                   ),
+                  Text(
+                    rating,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                descrizione,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 14,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

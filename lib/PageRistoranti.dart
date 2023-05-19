@@ -45,7 +45,10 @@ class _PageRistorantiState extends State<PageRistoranti> {
       case 1:
         Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PageProfilo(user: user,)));
+            MaterialPageRoute(
+                builder: (context) => PageProfilo(
+                      user: user,
+                    )));
         break;
       case 2:
         Navigator.push(context,
@@ -62,7 +65,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
 
   Future<List<RestaurantModel>> getRestaurantList() async {
     final List<RestaurantModel> restaurantList =
-    []; // lista di ristoranti vuota
+        []; // lista di ristoranti vuota
     final snapshot = await FirebaseDatabase.instance.ref('Ristoranti').get();
     final map = snapshot.value as Map<dynamic, dynamic>;
     map.forEach((key, value) {
@@ -74,9 +77,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
 
   Widget build(BuildContext context) {
     //CI FORNISCE height e width della pagina
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: false),
@@ -85,7 +86,8 @@ class _PageRistorantiState extends State<PageRistoranti> {
         onItemTapped: _onItemTapped,
       ),
       body: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Search_bar(size: size),
               SizedBox(
@@ -96,26 +98,33 @@ class _PageRistorantiState extends State<PageRistoranti> {
                       if (snapshot.hasData) {
                         return Expanded(
                           child: SizedBox(
-                            height: 200.0,
+                            height: MediaQuery.of(context).size.height * 0.3,
                             child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return CardRistorante(
-                                      copertina: snapshot.data![index].imageR,
-                                      nomeRist: snapshot.data![index].nomeR,
-                                      tipoCibo: snapshot.data![index].tipoCiboR,
-                                      rating: snapshot.data![index].ratingR.toString(),
-                                      descrizione: snapshot.data![index].descrizioneR,
-                                      onPressed: () =>
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                       RestaurantDetail( snapshot.data![index] ,user)),
-                                          ),
+                                  return InkWell(
+                                    child: CardRistorante(
+                                        copertina: snapshot.data![index].imageR,
+                                        nomeRist: snapshot.data![index].nomeR,
+                                        tipoCibo:
+                                            snapshot.data![index].tipoCiboR,
+                                        rating: snapshot.data![index].ratingR
+                                            .toString(),
+                                        descrizione:
+                                            snapshot.data![index].descrizioneR),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RestaurantDetail(
+                                                    snapshot.data![index],
+                                                    user)),
+                                      );
+                                    },
                                   );
-                                }
-                            ),
+                                }),
                           ),
                         );
                       } else if (snapshot.hasError) {
@@ -124,8 +133,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
                       } else {
                         return const CircularProgressIndicator();
                       }
-                    }
-                ),
+                    }),
               )
             ]),
       ),

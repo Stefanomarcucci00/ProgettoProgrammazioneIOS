@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import 'package:progetto_programmazione_ios/screens/Search_bar.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
@@ -51,6 +52,15 @@ class _PageRistorantiState extends State<PageRistoranti> {
                     )));
         break;
       case 2:
+        FirebaseAuth.instance.signOut();
+        Fluttertoast.showToast(
+            msg: "Logout effettuato con successo.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const PageIntro()));
         break;

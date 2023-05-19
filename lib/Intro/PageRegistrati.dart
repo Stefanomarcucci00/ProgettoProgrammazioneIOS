@@ -17,7 +17,8 @@ class _PageRegisterState extends State<PageRegister> {
   final telController = TextEditingController();
 
   //FUNZIONE REGISTRA
-  Future<void> registerUser(String email, String password,String pwdConfirm, BuildContext context) async {
+  Future<void> registerUser(String email, String password, String pwdConfirm,
+      BuildContext context) async {
     //loading circle
     showDialog(
       context: context,
@@ -87,22 +88,26 @@ class _PageRegisterState extends State<PageRegister> {
             MyTextField(
                 controller: emailController,
                 hintText: "email",
-                obscureText: false),
+                obscureText: false,
+                enabled: true),
             const SizedBox(height: 10),
             MyTextField(
                 controller: pwdController,
                 hintText: "password",
-                obscureText: true),
+                obscureText: true,
+                enabled: true),
             const SizedBox(height: 10),
             MyTextField(
                 controller: pwdConfirmController,
                 hintText: "conferma password",
-                obscureText: true),
+                obscureText: true,
+                enabled: true),
             const SizedBox(height: 20),
             RedButton(
               buttonText: 'Registrati',
-              onPressed: () async{
-                registerUser(emailController.text, pwdController.text,pwdConfirmController.text, context);
+              onPressed: () async {
+                registerUser(emailController.text, pwdController.text,
+                    pwdConfirmController.text, context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => PageLogin()),

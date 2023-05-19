@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'COOKADE',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: HomePage(),
     );

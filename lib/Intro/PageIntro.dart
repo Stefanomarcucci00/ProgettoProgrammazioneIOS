@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:progetto_programmazione_ios/PageRistoranti.dart';
 
 import '../theme/widgets.dart';
 import 'PageLogin.dart';
@@ -30,15 +32,28 @@ class PageIntro extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 50),
-              RedButton(
-                buttonText: 'Login',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PageLogin()),
-                  );
-                },
-              ),
+              StreamBuilder<User?>(
+                  stream: FirebaseAuth.instance.authStateChanges(),
+                  builder: (context, snapshot) {
+                    return RedButton(
+                      buttonText: 'Login',
+                      onPressed: () {
+                        if (snapshot.hasData) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PageRistoranti(
+                                      user:
+                                          FirebaseAuth.instance.currentUser)));
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PageLogin()));
+                        }
+                      },
+                    );
+                  }),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {

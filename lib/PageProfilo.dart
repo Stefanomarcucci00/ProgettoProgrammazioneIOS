@@ -87,13 +87,13 @@ class _PageProfiloState extends State<PageProfilo> {
             builder:(BuildContext context, AsyncSnapshot<UserModel> snapshot) {
               return Expanded(child: Column(
                 children: [
-                  MyTextField(hintText: snapshot.data!.Nome, obscureText: false),
+                  MyTextField(hintText: snapshot.data!.Nome, obscureText: false, enabled: false),
                   const SizedBox(height: 10),
-                  MyTextField(hintText: snapshot.data!.Cognome, obscureText: false),
+                  MyTextField(hintText: snapshot.data!.Cognome, obscureText: false, enabled: false),
                   const SizedBox(height: 10),
-                  MyTextField(hintText: snapshot.data!.Email, obscureText: false),
+                  MyTextField(hintText: snapshot.data!.Email, obscureText: false, enabled: false),
                   const SizedBox(height: 10),
-                  MyTextField(hintText: snapshot.data!.Telefono, obscureText: false),
+                  MyTextField(hintText: snapshot.data!.Telefono, obscureText: false, enabled: false),
                 ],
               )
               );

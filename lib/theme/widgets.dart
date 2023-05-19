@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto_programmazione_ios/PageCarrello.dart';
 import 'package:progetto_programmazione_ios/PageQR_Code.dart';
@@ -139,49 +140,51 @@ class CardRistorante extends StatelessWidget {
 
   final VoidCallback onPressed;
 
-  const CardRistorante(
-      {
-        super.key,
-        required this.copertina,
-        required this.nomeRist,
-        required this.tipoCibo,
-        required this.rating,
-        required this.descrizione,
-        required this.onPressed,
-      });
+  const CardRistorante({
+    super.key,
+    required this.copertina,
+    required this.nomeRist,
+    required this.tipoCibo,
+    required this.rating,
+    required this.descrizione,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        // clipBehavior is necessary because, without it, the InkWell's animation
-        // will extend beyond the rounded edges of the [Card] (see https://github.com/flutter/flutter/issues/109776)
-        // This comes with a small performance cost, and you should not set [clipBehavior]
-        // unless you need it.
         clipBehavior: Clip.hardEdge,
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            //NAVIGA AI DETTAGLI
             onPressed;
           },
           child: SizedBox(
-            width: 300,
+            width: 160,
             height: 300,
             child: Column(
               children: [
                 Card(
-                  elevation: 5,
-                  child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: copertina != null
-                          ? Image.network(
-                              copertina,
-                              height: 150,
-                              width: 150,
-                            )
-                          : CircularProgressIndicator()),
-                ),
+                    elevation: 5,
+                    child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: FutureBuilder(
+                            future: FirebaseStorage.instance.ref().child(copertina).getDownloadURL(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<String> snapshot) {
+                              if (snapshot.hasData) {
+                                return Image.network(
+                                  snapshot.data!,
+                                  height: 150,
+                                  width: 150,
+                                );
+                              } else {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            }))),
                 Text(
                   nomeRist,
                   textAlign: TextAlign.left,

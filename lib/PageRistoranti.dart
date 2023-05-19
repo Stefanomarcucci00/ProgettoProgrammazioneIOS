@@ -20,8 +20,7 @@ class PageRistoranti extends StatefulWidget {
 }
 
 class _PageRistorantiState extends State<PageRistoranti> {
-  late Future<List<RestaurantModel>>
-  restaurantList; // definisce una variabile Future di tipo List<RestaurantModel>
+  late Future<List<RestaurantModel>> restaurantList;
 
   DatabaseReference firebaseRef = FirebaseDatabase.instance.ref();
 
@@ -105,7 +104,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
                                       copertina: snapshot.data![index].imageR,
                                       nomeRist: snapshot.data![index].nomeR,
                                       tipoCibo: snapshot.data![index].tipoCiboR,
-                                      rating: snapshot.data![index].ratingR,
+                                      rating: snapshot.data![index].ratingR.toString(),
                                       descrizione: snapshot.data![index].descrizioneR,
                                       onPressed: () =>
                                           Navigator.push(

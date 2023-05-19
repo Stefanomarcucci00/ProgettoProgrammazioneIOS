@@ -1,3 +1,5 @@
+import 'package:firebase_database/firebase_database.dart';
+
 class RestaurantModel {
   final String imageR;
   final String nomeR;
@@ -7,8 +9,8 @@ class RestaurantModel {
   final String orariofineR;
   final String telefonoR;
   final String tipoCiboR;
-  final String veganR;
-  final String ratingR;
+  final bool veganR;
+  final int ratingR;
   final String idR;
   final String proprietarioR;
 

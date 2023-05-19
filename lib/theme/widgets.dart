@@ -66,6 +66,52 @@ class MyTextField extends StatelessWidget {
   }
 }
 
+class SearchBarCustom extends StatelessWidget {
+  const SearchBarCustom({Key? key, required this.size}) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      height: 50,
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Center(
+        child: Row(
+          children: [
+            const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: TextFormField(
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+                decoration: const InputDecoration(
+                  hintText: 'Cerca',
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String pageName;
   final bool backArrow;

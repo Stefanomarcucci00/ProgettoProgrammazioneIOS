@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
-import 'package:progetto_programmazione_ios/screens/Search_bar.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 import 'Intro/PageIntro.dart';
 import 'PageProfilo.dart';
@@ -99,7 +98,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Search_bar(size: size),
+              SearchBarCustom(size: size),
               SizedBox(
                 child: FutureBuilder(
                     future: restaurantList,

@@ -10,7 +10,7 @@ class RestaurantModel {
   final String telefonoR;
   final String tipoCiboR;
   final bool veganR;
-  final int ratingR;
+  final double ratingR;
   final String idR;
   final String proprietarioR;
 

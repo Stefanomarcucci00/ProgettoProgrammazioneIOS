@@ -170,21 +170,39 @@ class CardRistorante extends StatelessWidget {
                     child: Padding(
                         padding: EdgeInsets.all(10),
                         child: FutureBuilder(
-                            future: FirebaseStorage.instance.ref().child(copertina).getDownloadURL(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<String> snapshot) {
-                              if (snapshot.hasData) {
-                                return Image.network(
-                                  snapshot.data!,
-                                  height: 150,
-                                  width: 150,
-                                );
-                              } else {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            }))),
+                          future: FirebaseStorage.instance
+                              .ref(copertina)
+                              .getDownloadURL(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Container(
+                                width: 150.0,
+                                height: 150.0,
+                                color: Colors.grey,
+                              );
+                            } else if (snapshot.hasError) {
+                              return Container(
+                                width: 150.0,
+                                height: 150.0,
+                                color: Colors.red,
+                              );
+                            } else {
+                              return Container(
+                                width: 150.0,
+                                height: 150.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  image: DecorationImage(
+                                    image: NetworkImage(snapshot.data!),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        ),)),
                 Text(
                   nomeRist,
                   textAlign: TextAlign.left,

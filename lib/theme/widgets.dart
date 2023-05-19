@@ -157,7 +157,7 @@ class CardRistorante extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         child: SizedBox(
           width: 160,
-          height: 275,
+          height: MediaQuery.of(context).size.height * 0.39,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -208,6 +208,8 @@ class CardRistorante extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
               Text(
                 tipoCibo,
@@ -216,6 +218,8 @@ class CardRistorante extends StatelessWidget {
                   color: Colors.red,
                   fontSize: 14,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               Row(
                 children: [
@@ -239,6 +243,8 @@ class CardRistorante extends StatelessWidget {
                   color: Colors.red,
                   fontSize: 14,
                 ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

@@ -108,7 +108,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
                       if (snapshot.hasData) {
                         return Expanded(
                           child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.3,
+                            height: MediaQuery.of(context).size.height * 0.39,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: snapshot.data!.length,

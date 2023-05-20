@@ -88,6 +88,7 @@ class _PageRegisterState extends State<PageRegister> {
                         Telefono: telU,
                         Uri: "Users-images/defaultuserimg");
       FirebaseDatabase.instance.ref('Utenti').set(newUser);
+
   }
 
   @override

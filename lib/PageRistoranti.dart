@@ -22,6 +22,7 @@ class PageRistoranti extends StatefulWidget {
 
 class _PageRistorantiState extends State<PageRistoranti> {
   late Future<List<RestaurantModel>> restaurantList;
+  late Future<List<RestaurantModel>> restaurantListRating;
 
   DatabaseReference firebaseRef = FirebaseDatabase.instance.ref();
 
@@ -69,18 +70,25 @@ class _PageRistorantiState extends State<PageRistoranti> {
 
   @override
   void initState() {
-    restaurantList = getRestaurantList();
+    restaurantList = getRestaurantList("all");
+    restaurantListRating = getRestaurantList("rating");
     super.initState();
   }
 
-  Future<List<RestaurantModel>> getRestaurantList() async {
+  Future<List<RestaurantModel>> getRestaurantList(String filter) async {
     final List<RestaurantModel> restaurantList =
         []; // lista di ristoranti vuota
     final snapshot = await FirebaseDatabase.instance.ref('Ristoranti').get();
     final map = snapshot.value as Map<dynamic, dynamic>;
     map.forEach((key, value) {
       final restaurant = RestaurantModel.fromMap(value);
-      restaurantList.add(restaurant);
+      if (filter == "rating") {
+        if (restaurant.ratingR > 3.5) {
+          restaurantList.add(restaurant);
+        }
+      } else {
+        restaurantList.add(restaurant);
+      }
     });
     return restaurantList; // ritorna la lista di ristoranti
   }
@@ -105,11 +113,19 @@ class _PageRistorantiState extends State<PageRistoranti> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PageSearch(user: user, restaurantList: restaurantList)));
+                            builder: (context) => PageSearch(
+                                user: user, restaurantList: restaurantList)));
                   }),
+              const Text(
+                "Più votati",
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              ),
               SizedBox(
                 child: FutureBuilder(
-                    future: restaurantList,
+                    future: restaurantListRating,
                     builder: (BuildContext context,
                         AsyncSnapshot<List<RestaurantModel>> snapshot) {
                       if (snapshot.hasData) {
@@ -151,7 +167,53 @@ class _PageRistorantiState extends State<PageRistoranti> {
                         return const CircularProgressIndicator();
                       }
                     }),
-              )
+              ),
+              const SizedBox(width:20.0),
+              SizedBox(
+                child: FutureBuilder(
+                    future: restaurantList,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<RestaurantModel>> snapshot) {
+                      if (snapshot.hasData) {
+                        return Expanded(
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.39,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return InkWell(
+                                    child: CardRistorante(
+                                        copertina: snapshot.data![index].imageR,
+                                        nomeRist: snapshot.data![index].nomeR,
+                                        tipoCibo:
+                                        snapshot.data![index].tipoCiboR,
+                                        rating: snapshot.data![index].ratingR
+                                            .toString(),
+                                        descrizione:
+                                        snapshot.data![index].descrizioneR),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RestaurantDetail(
+                                                    snapshot.data![index],
+                                                    user)),
+                                      );
+                                    },
+                                  );
+                                }),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return const Text(
+                            "Errore durante il caricamento dei dati.");
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    }),
+              ),
             ]),
       ),
     );

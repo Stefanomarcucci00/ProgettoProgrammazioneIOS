@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:progetto_programmazione_ios/PageSearch.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 import 'Intro/PageIntro.dart';
@@ -89,7 +90,6 @@ class _PageRistorantiState extends State<PageRistoranti> {
         restaurantList.add(restaurant);
       }
     });
-
     return restaurantList; // ritorna la lista di ristoranti
   }
 
@@ -104,113 +104,117 @@ class _PageRistorantiState extends State<PageRistoranti> {
         onItemTapped: _onItemTapped,
       ),
       body: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-            Widget>[
-          SearchBarCustom(size: size),
-          const Text(
-            "Più votati",
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(width: 20.0),
-          SizedBox(
-            child: FutureBuilder(
-                future: restaurantListRating,
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<RestaurantModel>> snapshot) {
-                  if (snapshot.hasData) {
-                    return Expanded(
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.39,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return InkWell(
-                                child: CardRistorante(
-                                    copertina: snapshot.data![index].imageR,
-                                    nomeRist: snapshot.data![index].nomeR,
-                                    tipoCibo: snapshot.data![index].tipoCiboR,
-                                    rating: snapshot.data![index].ratingR
-                                        .toString(),
-                                    descrizione:
-                                        snapshot.data![index].descrizioneR),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RestaurantDetail(
-                                            snapshot.data![index], user)),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              InkWell(
+                  child: fakeSearchBarCustom(size: size, enabled: false),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PageSearch(
+                                user: user, restaurantList: restaurantList)));
+                  }),
+              const Text(
+                "Più votati",
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                child: FutureBuilder(
+                    future: restaurantListRating,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<RestaurantModel>> snapshot) {
+                      if (snapshot.hasData) {
+                        return Expanded(
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.39,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return InkWell(
+                                    child: CardRistorante(
+                                        copertina: snapshot.data![index].imageR,
+                                        nomeRist: snapshot.data![index].nomeR,
+                                        tipoCibo:
+                                            snapshot.data![index].tipoCiboR,
+                                        rating: snapshot.data![index].ratingR
+                                            .toString(),
+                                        descrizione:
+                                            snapshot.data![index].descrizioneR),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RestaurantDetail(
+                                                    snapshot.data![index],
+                                                    user)),
+                                      );
+                                    },
                                   );
-                                },
-                              );
-                            }),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return const Text(
-                        "Errore durante il caricamento dei dati.");
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                }),
-          ),
-          const SizedBox(width: 20.0),
-          const Text(
-            "Tutti",
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(width: 20.0),
-          SizedBox(
-            child: FutureBuilder(
-                future: restaurantList,
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<RestaurantModel>> snapshot) {
-                  if (snapshot.hasData) {
-                    return Expanded(
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.39,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return InkWell(
-                                child: CardRistorante(
-                                    copertina: snapshot.data![index].imageR,
-                                    nomeRist: snapshot.data![index].nomeR,
-                                    tipoCibo: snapshot.data![index].tipoCiboR,
-                                    rating: snapshot.data![index].ratingR
-                                        .toString(),
-                                    descrizione:
+                                }),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return const Text(
+                            "Errore durante il caricamento dei dati.");
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    }),
+              ),
+              const SizedBox(width:20.0),
+              SizedBox(
+                child: FutureBuilder(
+                    future: restaurantList,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<RestaurantModel>> snapshot) {
+                      if (snapshot.hasData) {
+                        return Expanded(
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.39,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return InkWell(
+                                    child: CardRistorante(
+                                        copertina: snapshot.data![index].imageR,
+                                        nomeRist: snapshot.data![index].nomeR,
+                                        tipoCibo:
+                                        snapshot.data![index].tipoCiboR,
+                                        rating: snapshot.data![index].ratingR
+                                            .toString(),
+                                        descrizione:
                                         snapshot.data![index].descrizioneR),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RestaurantDetail(
-                                            snapshot.data![index], user)),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RestaurantDetail(
+                                                    snapshot.data![index],
+                                                    user)),
+                                      );
+                                    },
                                   );
-                                },
-                              );
-                            }),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return const Text(
-                        "Errore durante il caricamento dei dati.");
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                }),
-          )
-        ]),
+                                }),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return const Text(
+                            "Errore durante il caricamento dei dati.");
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    }),
+              ),
+            ]),
       ),
     );
   }

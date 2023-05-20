@@ -66,9 +66,12 @@ class MyTextField extends StatelessWidget {
   }
 }
 
-class SearchBarCustom extends StatelessWidget {
-  const SearchBarCustom({Key? key, required this.size}) : super(key: key);
 
+class SearchBarCustom extends StatelessWidget {
+  const SearchBarCustom({Key? key, required this.size, required this.searchController, required this.onSearch});
+
+  final TextEditingController searchController;
+  final ValueChanged<String> onSearch;
   final Size size;
 
   @override
@@ -91,6 +94,56 @@ class SearchBarCustom extends StatelessWidget {
             const SizedBox(width: 10),
             Expanded(
               child: TextFormField(
+                controller: TextEditingController(),
+                onChanged: onSearch,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+                decoration: const InputDecoration(
+                  hintText: 'Cerca',
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class fakeSearchBarCustom extends StatelessWidget {
+  const fakeSearchBarCustom({Key? key, required this.size, required this.enabled}) : super(key: key);
+
+  final Size size;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      height: 50,
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Center(
+        child: Row(
+          children: [
+            const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: TextFormField(
+                enabled: enabled,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,

@@ -140,8 +140,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
                                         tipoCibo: filteredRestaurants[index]
                                             .tipoCiboR,
                                         rating: filteredRestaurants[index]
-                                            .ratingR
-                                            .toString(),
+                                            .ratingR,
                                         descrizione: filteredRestaurants[index]
                                             .descrizioneR),
                                     onTap: () {
@@ -186,8 +185,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
                                         nomeRist: snapshot.data![index].nomeR,
                                         tipoCibo:
                                             snapshot.data![index].tipoCiboR,
-                                        rating: snapshot.data![index].ratingR
-                                            .toString(),
+                                        rating: snapshot.data![index].ratingR,
                                         descrizione:
                                             snapshot.data![index].descrizioneR),
                                     onTap: () {

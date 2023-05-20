@@ -103,8 +103,7 @@ class _PageSearchState extends State<PageSearch> {
                                         nomeRist: filteredRestaurants[index].nomeR,
                                         tipoCibo:
                                         filteredRestaurants[index].tipoCiboR,
-                                        rating: filteredRestaurants[index].ratingR
-                                            .toString(),
+                                        rating: filteredRestaurants[index].ratingR,
                                         descrizione:
                                         filteredRestaurants[index].descrizioneR),
                                     onTap: () {

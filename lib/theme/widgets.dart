@@ -246,7 +246,7 @@ class CardRistorante extends StatelessWidget {
   final String copertina;
   final String nomeRist;
   final String tipoCibo;
-  final String rating;
+  final double rating;
   final String descrizione;
 
   const CardRistorante({
@@ -336,7 +336,7 @@ class CardRistorante extends StatelessWidget {
                     color: Colors.yellow,
                   ),
                   Text(
-                    rating,
+                    rating.toStringAsFixed(2),
                     style: const TextStyle(
                       color: Colors.red,
                       fontSize: 14,
@@ -361,3 +361,4 @@ class CardRistorante extends StatelessWidget {
     );
   }
 }
+

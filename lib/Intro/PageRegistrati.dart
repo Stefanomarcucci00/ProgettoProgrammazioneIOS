@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../models/User.dart';
 import '../theme/widgets.dart';
 import 'PageLogin.dart';
 
@@ -9,6 +12,7 @@ class PageRegister extends StatefulWidget {
 }
 
 class _PageRegisterState extends State<PageRegister> {
+
   final nomeController = TextEditingController();
   final cognomeController = TextEditingController();
   final emailController = TextEditingController();
@@ -19,57 +23,71 @@ class _PageRegisterState extends State<PageRegister> {
   //FUNZIONE REGISTRA
   Future<void> registerUser(String email, String password, String pwdConfirm,
       BuildContext context) async {
-    //loading circle
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
+
+    if(password==pwdConfirm) {
+      try {
+        final newUser = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+
+        Fluttertoast.showToast(
+            msg: "Registrato con successo.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PageLogin()),
         );
-      },
-    );
-    //tentativo signin
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text, password: pwdController.text);
-      //pop loading circle
-      Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      //pop loading circle
-      Navigator.pop(context);
-      //email errata
-      if (e.code == 'user-not-found') {
-        wrongEmailMessage();
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'email-already-in-use') {
+          Fluttertoast.showToast(
+              msg: "email gia in uso.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        }
       }
-      //pop loading circle
-      Navigator.pop(context);
-      //password errata
-      if (e.code == 'wrong-password') {
-        wrongPasswordMessage();
-      }
+
+      writeUserToDB(nomeController.toString(),
+                    cognomeController.toString(),
+                    emailController.toString(),
+                    pwdController.toString(),
+                    telController.toString());
+
+
+    }else{
+      Fluttertoast.showToast(
+          msg: "Errore durante la registrazione.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
-  void wrongEmailMessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text('Formato email errato'),
-        );
-      },
-    );
-  }
-
-  void wrongPasswordMessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text('Formato password errato'),
-        );
-      },
-    );
+  Future<void> writeUserToDB( String nomeU,
+      String cognomeU,
+      String emailU,
+      String pwdU,
+      String telU,
+      )async {
+    //CREA NUOVO UTENTE E SALVA SU DB
+     var newUser=UserModel(Cognome: cognomeU,
+                        Email: emailU,
+                        Livello: '1',
+                        Nome: nomeU,
+                        Password: pwdU,
+                        Telefono: telU,
+                        Uri: "Users-images/defaultuserimg");
+      FirebaseDatabase.instance.ref('Utenti').set(newUser);
   }
 
   @override
@@ -86,6 +104,18 @@ class _PageRegisterState extends State<PageRegister> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MyTextField(
+                controller: nomeController,
+                hintText: "nome",
+                obscureText: false,
+                enabled: true),
+            const SizedBox(height: 10),
+            MyTextField(
+                controller: cognomeController,
+                hintText: "cognome",
+                obscureText: false,
+                enabled: true),
+            const SizedBox(height: 10),
+            MyTextField(
                 controller: emailController,
                 hintText: "E-mail",
                 obscureText: false,
@@ -100,6 +130,12 @@ class _PageRegisterState extends State<PageRegister> {
             MyTextField(
                 controller: pwdConfirmController,
                 hintText: "Conferma password",
+                obscureText: true,
+                enabled: true),
+            const SizedBox(height: 10),
+            MyTextField(
+                controller: telController,
+                hintText: "num telefono",
                 obscureText: true,
                 enabled: true),
             const SizedBox(height: 20),
@@ -122,7 +158,8 @@ class _PageRegisterState extends State<PageRegister> {
                   MaterialPageRoute(builder: (context) => PageLogin()),
                 );
               },
-              child: const Text('Già registrato? Clicca qui per effettuare il login!',
+              child: const Text(
+                  'Già registrato? Clicca qui per effettuare il login!',
                   style: TextStyle(color: Colors.red)),
             ),
           ],

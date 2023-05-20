@@ -22,6 +22,7 @@ class _PageSearchState extends State<PageSearch> {
   final User? user;
 
   Future<List<RestaurantModel>> restaurantList;
+
   _PageSearchState(this.user, this.restaurantList);
 
   @override
@@ -57,27 +58,22 @@ class _PageSearchState extends State<PageSearch> {
         break;
     }
   }
-  final searchController = TextEditingController();
-  String query = '';
+
+  String searchText = "";
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SearchBarCustom(
-                searchController: searchController,
-                size: size,
-                onSearch: (value) {
-                  setState(() {
-                    query = value;
-                  });
-                },
-              ),
+                  onSearch: (value) {
+                    setState(() {
+                      searchText = value.toLowerCase();
+                    });
+                  }),
               const SizedBox(
                 height: 20,
               ),
@@ -87,36 +83,40 @@ class _PageSearchState extends State<PageSearch> {
                     builder: (BuildContext context,
                         AsyncSnapshot<List<RestaurantModel>> snapshot) {
                       if (snapshot.hasData) {
-                        final filteredRestaurants = snapshot.data!.where((restaurant) =>
-                            restaurant.nomeR.toLowerCase().contains(query.toLowerCase())
-                        ).toList();
                         return Expanded(
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.39,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: filteredRestaurants.length,
+                                itemCount: snapshot.data!.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return InkWell(
-                                    child: CardRistorante(
-                                        copertina: filteredRestaurants[index].imageR,
-                                        nomeRist: filteredRestaurants[index].nomeR,
-                                        tipoCibo:
-                                        filteredRestaurants[index].tipoCiboR,
-                                        rating: filteredRestaurants[index].ratingR,
-                                        descrizione:
-                                        filteredRestaurants[index].descrizioneR),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RestaurantDetail(
-                                                    filteredRestaurants[index],
-                                                    user)),
-                                      );
-                                    },
-                                  );
+                                  return snapshot.data![index].nomeR
+                                          .toLowerCase()
+                                          .contains(searchText.toLowerCase())
+                                      ? InkWell(
+                                          child: CardRistorante(
+                                              copertina:
+                                                  snapshot.data![index].imageR,
+                                              nomeRist:
+                                                  snapshot.data![index].nomeR,
+                                              tipoCibo: snapshot
+                                                  .data![index].tipoCiboR,
+                                              rating:
+                                                  snapshot.data![index].ratingR,
+                                              descrizione: snapshot
+                                                  .data![index].descrizioneR),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      RestaurantDetail(
+                                                          snapshot.data![index],
+                                                          user)),
+                                            );
+                                          },
+                                        )
+                                      : Container();
                                 }),
                           ),
                         );

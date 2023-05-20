@@ -66,13 +66,10 @@ class MyTextField extends StatelessWidget {
   }
 }
 
-
 class SearchBarCustom extends StatelessWidget {
-  const SearchBarCustom({Key? key, required this.size, required this.searchController, required this.onSearch});
+  const SearchBarCustom({Key? key, required this.onSearch});
 
-  final TextEditingController searchController;
-  final ValueChanged<String> onSearch;
-  final Size size;
+  final Function(String) onSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +91,6 @@ class SearchBarCustom extends StatelessWidget {
             const SizedBox(width: 10),
             Expanded(
               child: TextFormField(
-                controller: TextEditingController(),
                 onChanged: onSearch,
                 style: const TextStyle(
                   color: Colors.white,

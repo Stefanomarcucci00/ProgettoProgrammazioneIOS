@@ -3,6 +3,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto_programmazione_ios/PageCarrello.dart';
 import 'package:progetto_programmazione_ios/PageQR_Code.dart';
+import 'package:progetto_programmazione_ios/models/Restaurant.dart';
+
+import '../RestaurantDetail.dart';
 
 class RedButton extends StatelessWidget {
   final String buttonText;
@@ -67,9 +70,9 @@ class MyTextField extends StatelessWidget {
 }
 
 class SearchBarCustom extends StatelessWidget {
-  const SearchBarCustom({Key? key, required this.onSearch});
-
   final Function(String) onSearch;
+
+  const SearchBarCustom({super.key, required this.onSearch});
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +117,9 @@ class SearchBarCustom extends StatelessWidget {
 }
 
 class fakeSearchBarCustom extends StatelessWidget {
-  const fakeSearchBarCustom({Key? key, required this.size, required this.enabled}) : super(key: key);
+  const fakeSearchBarCustom(
+      {Key? key, required this.size, required this.enabled})
+      : super(key: key);
 
   final Size size;
   final bool enabled;
@@ -239,20 +244,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
 }
 
 class CardRistorante extends StatelessWidget {
-  final String copertina;
-  final String nomeRist;
-  final String tipoCibo;
-  final double rating;
-  final String descrizione;
+  final RestaurantModel restaurant;
 
-  const CardRistorante({
-    super.key,
-    required this.copertina,
-    required this.nomeRist,
-    required this.tipoCibo,
-    required this.rating,
-    required this.descrizione,
-  });
+  const CardRistorante({super.key, required this.restaurant});
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +265,7 @@ class CardRistorante extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: FutureBuilder(
                       future: FirebaseStorage.instance
-                          .ref(copertina)
+                          .ref(restaurant.imageR)
                           .getDownloadURL(),
                       builder: (BuildContext context,
                           AsyncSnapshot<String> snapshot) {
@@ -305,7 +299,7 @@ class CardRistorante extends StatelessWidget {
                     ),
                   )),
               Text(
-                nomeRist,
+                restaurant.nomeR,
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   color: Colors.red,
@@ -316,7 +310,7 @@ class CardRistorante extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                tipoCibo,
+                restaurant.tipoCiboR,
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   color: Colors.red,
@@ -332,7 +326,7 @@ class CardRistorante extends StatelessWidget {
                     color: Colors.yellow,
                   ),
                   Text(
-                    rating.toStringAsFixed(2),
+                    restaurant.ratingR.toStringAsFixed(2),
                     style: const TextStyle(
                       color: Colors.red,
                       fontSize: 14,
@@ -341,7 +335,7 @@ class CardRistorante extends StatelessWidget {
                 ],
               ),
               Text(
-                descrizione,
+                restaurant.descrizioneR,
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   color: Colors.red,
@@ -358,3 +352,102 @@ class CardRistorante extends StatelessWidget {
   }
 }
 
+class CardList extends StatefulWidget {
+  final Future<List<RestaurantModel>> restaurantList;
+  final User user;
+  final String filter;
+
+  const CardList(
+      {super.key,
+      required this.restaurantList,
+      required this.user,
+      required this.filter});
+
+  @override
+  _CardList createState() =>
+      _CardList(restaurantList: restaurantList, user: user, filter: filter);
+}
+
+class _CardList extends State<CardList> {
+  final Future<List<RestaurantModel>> restaurantList;
+  final User user;
+  String filter;
+
+  _CardList(
+      {required this.restaurantList, required this.user, required this.filter});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: FutureBuilder(
+          future: restaurantList,
+          builder: (BuildContext context,
+              AsyncSnapshot<List<RestaurantModel>> snapshot) {
+            if (snapshot.hasData) {
+              var filteredList = [];
+
+              switch (filter) {
+                case 'Empty':
+                  filteredList = [];
+                  break;
+                case 'Ratings':
+                  filteredList = [];
+                  filteredList = snapshot.data!
+                      .where((restaurant) => restaurant.ratingR >= 3.5)
+                      .toList();
+                  break;
+                case 'Italiano':
+                  filteredList = [];
+                  filteredList = snapshot.data!
+                      .where((restaurant) =>
+                          restaurant.tipoCiboR.contains("Italiano"))
+                      .toList();
+                  break;
+                case 'Pizza':
+                  filteredList = [];
+                  filteredList = snapshot.data!
+                      .where((restaurant) =>
+                          restaurant.tipoCiboR.contains("Pizza"))
+                      .toList();
+                  break;
+                case 'Burger':
+                  filteredList = [];
+                  filteredList = snapshot.data!
+                      .where((restaurant) =>
+                          restaurant.tipoCiboR.contains("Burger"))
+                      .toList();
+                  break;
+              }
+
+              return Expanded(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.39,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: filteredList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return filteredList.isNotEmpty? InkWell(
+                          child:
+                              CardRistorante(restaurant: filteredList[index]),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RestaurantDetail(
+                                      filteredList[index], user)),
+                            );
+                          },
+                        ) : Container();
+                      }),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return const Text("Errore durante il caricamento dei dati.");
+            } else {
+              return const CircularProgressIndicator();
+            }
+          }),
+    );
+  }
+}

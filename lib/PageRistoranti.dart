@@ -14,7 +14,7 @@ import 'RestaurantDetail.dart';
 class PageRistoranti extends StatefulWidget {
   final User? user;
 
-  const PageRistoranti({super.key, required User? user}) : this.user = user;
+  const PageRistoranti({super.key, this.user});
 
   @override
   _PageRistorantiState createState() => _PageRistorantiState(user);
@@ -30,6 +30,8 @@ class _PageRistorantiState extends State<PageRistoranti> {
   _PageRistorantiState(this.user);
 
   int _selectedIndex = 0;
+
+  String filter = "Empty";
 
   void _onItemTapped(int index) {
     setState(() {
@@ -89,6 +91,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
     //CI FORNISCE height e width della pagina
     Size size = MediaQuery.of(context).size;
 
+
     return Scaffold(
       appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: false),
       bottomNavigationBar: CustomBottomNavigationBar(
@@ -115,101 +118,34 @@ class _PageRistorantiState extends State<PageRistoranti> {
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(
-                child: FutureBuilder(
-                    future: restaurantList,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<RestaurantModel>> snapshot) {
-                      if (snapshot.hasData) {
-                        final filteredRestaurants = snapshot.data!
-                            .where((restaurant) => restaurant.ratingR >= 3.5)
-                            .toList();
-                        return Expanded(
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.39,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: filteredRestaurants.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return InkWell(
-                                    child: CardRistorante(
-                                        copertina:
-                                            filteredRestaurants[index].imageR,
-                                        nomeRist:
-                                            filteredRestaurants[index].nomeR,
-                                        tipoCibo: filteredRestaurants[index]
-                                            .tipoCiboR,
-                                        rating: filteredRestaurants[index]
-                                            .ratingR,
-                                        descrizione: filteredRestaurants[index]
-                                            .descrizioneR),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RestaurantDetail(
-                                                    filteredRestaurants[index],
-                                                    user)),
-                                      );
-                                    },
-                                  );
-                                }),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return const Text(
-                            "Errore durante il caricamento dei dati.");
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    }),
-              ),
+              CardList(restaurantList: restaurantList, user: user!,  filter: "Ratings"),
               const SizedBox(width: 20.0),
-              SizedBox(
-                child: FutureBuilder(
-                    future: restaurantList,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<RestaurantModel>> snapshot) {
-                      if (snapshot.hasData) {
-                        return Expanded(
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.39,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return InkWell(
-                                    child: CardRistorante(
-                                        copertina: snapshot.data![index].imageR,
-                                        nomeRist: snapshot.data![index].nomeR,
-                                        tipoCibo:
-                                            snapshot.data![index].tipoCiboR,
-                                        rating: snapshot.data![index].ratingR,
-                                        descrizione:
-                                            snapshot.data![index].descrizioneR),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RestaurantDetail(
-                                                    snapshot.data![index],
-                                                    user)),
-                                      );
-                                    },
-                                  );
-                                }),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return const Text(
-                            "Errore durante il caricamento dei dati.");
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    }),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      filter = "Italiano";
+                    },
+                    child: const Text('Italiano'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      filter = "Pizza";
+                    },
+                    child: const Text('Pizza'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        filter = "Burger";
+                      });
+                    },
+                    child: const Text('Burger'),
+                  ),
+                ],
               ),
+
+              CardList(restaurantList: restaurantList, user: user!, filter: filter)
             ]),
       ),
     );

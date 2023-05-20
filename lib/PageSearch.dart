@@ -95,16 +95,7 @@ class _PageSearchState extends State<PageSearch> {
                                           .contains(searchText.toLowerCase())
                                       ? InkWell(
                                           child: CardRistorante(
-                                              copertina:
-                                                  snapshot.data![index].imageR,
-                                              nomeRist:
-                                                  snapshot.data![index].nomeR,
-                                              tipoCibo: snapshot
-                                                  .data![index].tipoCiboR,
-                                              rating:
-                                                  snapshot.data![index].ratingR,
-                                              descrizione: snapshot
-                                                  .data![index].descrizioneR),
+                                              restaurant: snapshot.data![index]),
                                           onTap: () {
                                             Navigator.push(
                                               context,

@@ -1,33 +1,33 @@
-import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:progetto_programmazione_ios/PageSearch.dart';
-import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
+
 import 'Intro/PageIntro.dart';
 import 'PageProfilo.dart';
+import 'PageRistoranti.dart';
 import 'RestaurantDetail.dart';
+import 'models/Restaurant.dart';
 
-class PageRistoranti extends StatefulWidget {
+class PageSearch extends StatefulWidget {
   final User? user;
+  final Future<List<RestaurantModel>> restaurantList;
 
-  const PageRistoranti({super.key, required User? user}) : this.user = user;
+  const PageSearch({super.key, this.user, required this.restaurantList});
 
   @override
-  _PageRistorantiState createState() => _PageRistorantiState(user);
+  _PageSearchState createState() => _PageSearchState(user, restaurantList);
 }
 
-class _PageRistorantiState extends State<PageRistoranti> {
-  late Future<List<RestaurantModel>> restaurantList;
-
-  DatabaseReference firebaseRef = FirebaseDatabase.instance.ref();
-
+class _PageSearchState extends State<PageSearch> {
   final User? user;
 
-  _PageRistorantiState(this.user);
+  Future<List<RestaurantModel>> restaurantList;
+  _PageSearchState(this.user, this.restaurantList);
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   int _selectedIndex = 0;
 
@@ -52,91 +52,68 @@ class _PageRistorantiState extends State<PageRistoranti> {
                     )));
         break;
       case 2:
-        FirebaseAuth.instance.signOut();
-        Fluttertoast.showToast(
-            msg: "Logout effettuato con successo.",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const PageIntro()));
         break;
     }
   }
+  final searchController = TextEditingController();
+  String query = '';
 
   @override
-  void initState() {
-    restaurantList = getRestaurantList();
-    super.initState();
-  }
-
-  Future<List<RestaurantModel>> getRestaurantList() async {
-    final List<RestaurantModel> restaurantList =
-        []; // lista di ristoranti vuota
-    final snapshot = await FirebaseDatabase.instance.ref('Ristoranti').get();
-    final map = snapshot.value as Map<dynamic, dynamic>;
-    map.forEach((key, value) {
-      final restaurant = RestaurantModel.fromMap(value);
-      restaurantList.add(restaurant);
-    });
-    return restaurantList; // ritorna la lista di ristoranti
-  }
-
   Widget build(BuildContext context) {
-    //CI FORNISCE height e width della pagina
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: false),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
+        body: SingleChildScrollView(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              InkWell(
-                  child: fakeSearchBarCustom(size: size, enabled: false),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PageSearch(user: user, restaurantList: restaurantList)));
-                  }),
+            children: [
+              SearchBarCustom(
+                searchController: searchController,
+                size: size,
+                onSearch: (value) {
+                  setState(() {
+                    query = value;
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               SizedBox(
                 child: FutureBuilder(
                     future: restaurantList,
                     builder: (BuildContext context,
                         AsyncSnapshot<List<RestaurantModel>> snapshot) {
                       if (snapshot.hasData) {
+                        final filteredRestaurants = snapshot.data!.where((restaurant) =>
+                            restaurant.nomeR.toLowerCase().contains(query.toLowerCase())
+                        ).toList();
                         return Expanded(
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.39,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: snapshot.data!.length,
+                                itemCount: filteredRestaurants.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return InkWell(
                                     child: CardRistorante(
-                                        copertina: snapshot.data![index].imageR,
-                                        nomeRist: snapshot.data![index].nomeR,
+                                        copertina: filteredRestaurants[index].imageR,
+                                        nomeRist: filteredRestaurants[index].nomeR,
                                         tipoCibo:
-                                            snapshot.data![index].tipoCiboR,
-                                        rating: snapshot.data![index].ratingR
+                                        filteredRestaurants[index].tipoCiboR,
+                                        rating: filteredRestaurants[index].ratingR
                                             .toString(),
                                         descrizione:
-                                            snapshot.data![index].descrizioneR),
+                                        filteredRestaurants[index].descrizioneR),
                                     onTap: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 RestaurantDetail(
-                                                    snapshot.data![index],
+                                                    filteredRestaurants[index],
                                                     user)),
                                       );
                                     },
@@ -152,8 +129,14 @@ class _PageRistorantiState extends State<PageRistoranti> {
                       }
                     }),
               )
-            ]),
-      ),
-    );
+            ],
+          ),
+        ),
+        appBar: const CustomAppBar(
+          pageName: 'Cerca ristoranti',
+          backArrow: true,
+        ),
+        bottomNavigationBar: CustomBottomNavigationBar(
+            selectedIndex: _selectedIndex, onItemTapped: _onItemTapped));
   }
 }

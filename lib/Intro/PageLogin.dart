@@ -66,6 +66,14 @@ class PageLogin extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Center(
+              child: Image.asset(
+                'assets/images/Logo.png',
+                height: 200,
+                width: 200,
+              ),
+            ),
+            const SizedBox(height: 20),
             MyTextField(controller: emailController,hintText: "email", obscureText: false, enabled: true),
             const SizedBox(height: 10),
             MyTextField(controller: pwdController,hintText: "password", obscureText: true, enabled: true),

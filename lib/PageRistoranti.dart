@@ -9,7 +9,6 @@ import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 import 'Intro/PageIntro.dart';
 import 'PageProfilo.dart';
-import 'RestaurantDetail.dart';
 
 class PageRistoranti extends StatefulWidget {
   final User? user;
@@ -31,7 +30,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
 
   int _selectedIndex = 0;
 
-  String filter = "Empty";
+  String filter = '';
 
   void _onItemTapped(int index) {
     setState(() {
@@ -88,9 +87,18 @@ class _PageRistorantiState extends State<PageRistoranti> {
   }
 
   Widget build(BuildContext context) {
-    //CI FORNISCE height e width della pagina
     Size size = MediaQuery.of(context).size;
 
+    List<String> searchOptions = [
+      'Pizza',
+      'Burger',
+      'Italiano',
+      'Cinese',
+      'Giapponese',
+      'Indiano',
+      'Greco',
+      'Vegan'
+    ];
 
     return Scaffold(
       appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: false),
@@ -99,54 +107,76 @@ class _PageRistorantiState extends State<PageRistoranti> {
         onItemTapped: _onItemTapped,
       ),
       body: SingleChildScrollView(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              InkWell(
-                  child: fakeSearchBarCustom(size: size, enabled: false),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PageSearch(
-                                user: user, restaurantList: restaurantList)));
-                  }),
-              const Text(
-                "Più votati",
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          InkWell(
+              child: fakeSearchBarCustom(size: size, enabled: false),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PageSearch(
+                            user: user, restaurantList: restaurantList)));
+              }),
+          Container(
+            height: 1,
+            color: Colors.red,
+          ),
+          const SizedBox(height: 10.0),
+          const Text(
+            "TOP RATED",
+            style: TextStyle(
+                color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10.0),
+          CardList(
+              restaurantList: restaurantList, user: user!, filter: 'Ratings'),
+          const SizedBox(height: 10.0),
+          Container(
+            height: 1,
+            color: Colors.red,
+          ),
+          const SizedBox(height: 10.0),
+          const Text(
+            "CERCA PER TIPOLOGIA",
+            style: TextStyle(
+                color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10.0),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: searchOptions.map((option) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: ChoiceChip(
+                      label: Text(option),
+                      selected: filter == option,
+                      onSelected: (isSelected) {
+                        setState(() {
+                          filter = isSelected ? option : '';
+                        });
+                      },
+                      labelStyle: const TextStyle(color: Colors.red),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.0),
+                        side: const BorderSide(color: Colors.red, width: 0.5),
+                      ),
+                      backgroundColor: Colors.white,
+                      selectedColor: Colors.red.shade100,
+                    ),
+                  );
+                }).toList(),
               ),
-              CardList(restaurantList: restaurantList, user: user!,  filter: "Ratings"),
-              const SizedBox(width: 20.0),
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      filter = "Italiano";
-                    },
-                    child: const Text('Italiano'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      filter = "Pizza";
-                    },
-                    child: const Text('Pizza'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        filter = "Burger";
-                      });
-                    },
-                    child: const Text('Burger'),
-                  ),
-                ],
-              ),
-
-              CardList(restaurantList: restaurantList, user: user!, filter: filter)
-            ]),
+            ),
+          ),
+          const SizedBox(
+            height: 20.0,
+          ),
+          CardList(restaurantList: restaurantList, user: user!, filter: filter)
+        ]),
       ),
     );
   }

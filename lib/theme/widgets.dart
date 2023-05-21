@@ -376,7 +376,6 @@ class _CardList extends State<CardList> {
   _CardList(
       {required this.restaurantList, required this.user, required this.filter});
 
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -385,60 +384,68 @@ class _CardList extends State<CardList> {
           builder: (BuildContext context,
               AsyncSnapshot<List<RestaurantModel>> snapshot) {
             if (snapshot.hasData) {
-              var filteredList = [];
-
-              switch (filter) {
-                case 'Empty':
-                  filteredList = [];
-                  break;
-                case 'Ratings':
-                  filteredList = [];
-                  filteredList = snapshot.data!
-                      .where((restaurant) => restaurant.ratingR >= 3.5)
-                      .toList();
-                  break;
-                case 'Italiano':
-                  filteredList = [];
-                  filteredList = snapshot.data!
-                      .where((restaurant) =>
-                          restaurant.tipoCiboR.contains("Italiano"))
-                      .toList();
-                  break;
-                case 'Pizza':
-                  filteredList = [];
-                  filteredList = snapshot.data!
-                      .where((restaurant) =>
-                          restaurant.tipoCiboR.contains("Pizza"))
-                      .toList();
-                  break;
-                case 'Burger':
-                  filteredList = [];
-                  filteredList = snapshot.data!
-                      .where((restaurant) =>
-                          restaurant.tipoCiboR.contains("Burger"))
-                      .toList();
-                  break;
-              }
-
               return Expanded(
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.39,
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: filteredList.length,
+                      itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return filteredList.isNotEmpty? InkWell(
-                          child:
-                              CardRistorante(restaurant: filteredList[index]),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RestaurantDetail(
-                                      filteredList[index], user)),
-                            );
-                          },
-                        ) : Container();
+                        if (filter != 'Ratings') {
+                          if (filter != 'Vegan') {
+                            return snapshot.data![index].tipoCiboR
+                                    .contains(filter)
+                                ? InkWell(
+                                    child: CardRistorante(
+                                        restaurant: snapshot.data![index]),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RestaurantDetail(
+                                                    snapshot.data![index],
+                                                    user)),
+                                      );
+                                    },
+                                  )
+                                : Container();
+                          } else {
+                            return snapshot.data![index].veganR.toString() ==
+                                    filter
+                                ? InkWell(
+                                    child: CardRistorante(
+                                        restaurant: snapshot.data![index]),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RestaurantDetail(
+                                                    snapshot.data![index],
+                                                    user)),
+                                      );
+                                    },
+                                  )
+                                : Container();
+                          }
+                        } else {
+                          return snapshot.data![index].ratingR >= 3.5
+                              ? InkWell(
+                                  child: CardRistorante(
+                                      restaurant: snapshot.data![index]),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RestaurantDetail(
+                                                  snapshot.data![index], user)),
+                                    );
+                                  },
+                                )
+                              : Container();
+                        }
                       }),
                 ),
               );

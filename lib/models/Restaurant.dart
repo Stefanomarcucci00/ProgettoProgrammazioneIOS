@@ -1,4 +1,5 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'dart:async';
+
 
 class RestaurantModel {
   final String imageR;
@@ -43,4 +44,17 @@ class RestaurantModel {
         idR: map['idR'],
         proprietarioR: map['proprietarioR']);
   }
+}
+
+enum Filter {
+  RATING,
+  ALL,
+  PIZZA,
+  BURGER,
+  ITALIANO,
+  CINESE,
+  GIAPPONESE,
+  INDIANO,
+  GRECO,
+  VEGAN
 }

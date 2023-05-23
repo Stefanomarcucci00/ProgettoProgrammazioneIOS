@@ -1,10 +1,11 @@
-import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:progetto_programmazione_ios/ChipController.dart';
 import 'package:progetto_programmazione_ios/PageSearch.dart';
+import 'package:progetto_programmazione_ios/firebase_controller.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 import 'Intro/PageIntro.dart';
@@ -20,9 +21,19 @@ class PageRistoranti extends StatefulWidget {
 }
 
 class _PageRistorantiState extends State<PageRistoranti> {
-  late Future<List<RestaurantModel>> restaurantList;
+  final FirebaseController firebaseController = Get.put(FirebaseController());
+  final ChipController chipController = Get.put(ChipController());
 
-  DatabaseReference firebaseRef = FirebaseDatabase.instance.ref();
+  final List<String> _chipLabel = [
+    'Pizza',
+    'Burger',
+    'Italiano',
+    'Cinese',
+    'Giapponese',
+    'Indiano',
+    'Greco',
+    'Vegan'
+  ];
 
   final User? user;
 
@@ -70,35 +81,12 @@ class _PageRistorantiState extends State<PageRistoranti> {
 
   @override
   void initState() {
-    restaurantList = getRestaurantList();
     super.initState();
   }
 
-  Future<List<RestaurantModel>> getRestaurantList() async {
-    final List<RestaurantModel> restaurantList =
-        []; // lista di ristoranti vuota
-    final snapshot = await FirebaseDatabase.instance.ref('Ristoranti').get();
-    final map = snapshot.value as Map<dynamic, dynamic>;
-    map.forEach((key, value) {
-      final restaurant = RestaurantModel.fromMap(value);
-      restaurantList.add(restaurant);
-    });
-    return restaurantList; // ritorna la lista di ristoranti
-  }
-
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    List<String> searchOptions = [
-      'Pizza',
-      'Burger',
-      'Italiano',
-      'Cinese',
-      'Giapponese',
-      'Indiano',
-      'Greco',
-      'Vegan'
-    ];
 
     return Scaffold(
       appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: false),
@@ -106,77 +94,104 @@ class _PageRistorantiState extends State<PageRistoranti> {
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
       ),
-      body: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          InkWell(
-              child: fakeSearchBarCustom(size: size, enabled: false),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PageSearch(
-                            user: user, restaurantList: restaurantList)));
-              }),
-          Container(
-            height: 1,
-            color: Colors.red,
-          ),
-          const SizedBox(height: 10.0),
-          const Text(
-            "TOP RATED",
-            style: TextStyle(
-                color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10.0),
-          CardList(
-              restaurantList: restaurantList, user: user!, filter: 'Ratings'),
-          const SizedBox(height: 10.0),
-          Container(
-            height: 1,
-            color: Colors.red,
-          ),
-          const SizedBox(height: 10.0),
-          const Text(
-            "CERCA PER TIPOLOGIA",
-            style: TextStyle(
-                color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10.0),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: searchOptions.map((option) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: ChoiceChip(
-                      label: Text(option),
-                      selected: filter == option,
-                      onSelected: (isSelected) {
-                        setState(() {
-                          filter = isSelected ? option : '';
-                        });
-                      },
-                      labelStyle: const TextStyle(color: Colors.red),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0),
-                        side: const BorderSide(color: Colors.red, width: 0.5),
-                      ),
-                      backgroundColor: Colors.white,
-                      selectedColor: Colors.red.shade100,
-                    ),
-                  );
-                }).toList(),
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                  child: fakeSearchBarCustom(size: size, enabled: false),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PageSearch(
+                                user: user,
+                                restaurantList:
+                                    firebaseController.allRestaurants)));
+                  }),
+              Container(
+                height: 1,
+                color: Colors.red,
               ),
-            ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                "I PIU' VOTATI",
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Obx(() => Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: firebaseController.RatingRestaurantList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CardRistorante(
+                            restaurant:
+                                firebaseController.RatingRestaurantList[index]);
+                      },
+                    ),
+                  )),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: 1,
+                color: Colors.red,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                "CERCA PER TIPOLOGIA",
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Obx(() => Wrap(
+                  spacing: 20,
+                  children: List<Widget>.generate(8, (index) {
+                    return ChoiceChip(
+                        labelStyle: const TextStyle(color: Colors.red),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7.0),
+                          side: const BorderSide(color: Colors.red, width: 0.5),
+                        ),
+                        backgroundColor: Colors.white,
+                        selectedColor: Colors.red.shade100,
+                        label: Text(_chipLabel[index]),
+                        selected: chipController.selectedChip == index,
+                        onSelected: (bool selected) {
+                          chipController.selectedChip = selected ? index : null;
+                          firebaseController.onInit();
+                          firebaseController.getRestaurants(
+                              Filter.values[chipController.selectedChip]);
+                        });
+                  }))),
+              Obx(() => Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: firebaseController.restaurantList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CardRistorante(
+                            restaurant:
+                                firebaseController.restaurantList[index]);
+                      },
+                    ),
+                  ))
+            ],
           ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          CardList(restaurantList: restaurantList, user: user!, filter: filter)
-        ]),
+        ),
       ),
     );
   }

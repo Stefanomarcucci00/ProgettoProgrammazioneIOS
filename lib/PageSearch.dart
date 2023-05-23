@@ -68,12 +68,11 @@ class _PageSearchState extends State<PageSearch> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SearchBarCustom(
-                  onSearch: (value) {
-                    setState(() {
-                      searchText = value.toLowerCase();
-                    });
-                  }),
+              SearchBarCustom(onSearch: (value) {
+                setState(() {
+                  searchText = value.toLowerCase();
+                });
+              }),
               const SizedBox(
                 height: 20,
               ),
@@ -82,9 +81,15 @@ class _PageSearchState extends State<PageSearch> {
                     future: restaurantList,
                     builder: (BuildContext context,
                         AsyncSnapshot<List<RestaurantModel>> snapshot) {
-                      if (snapshot.hasData) {
-                        return Expanded(
-                          child: SizedBox(
+                      if (searchText.isEmpty) {
+                        return const Text(
+                          "Inserisci una lettera/parola chiave per cercare dei ristoranti.",
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.bold),
+                        );
+                      } else {
+                        if (snapshot.hasData) {
+                          return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.39,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
@@ -95,7 +100,8 @@ class _PageSearchState extends State<PageSearch> {
                                           .contains(searchText.toLowerCase())
                                       ? InkWell(
                                           child: CardRistorante(
-                                              restaurant: snapshot.data![index]),
+                                              restaurant:
+                                                  snapshot.data![index]),
                                           onTap: () {
                                             Navigator.push(
                                               context,
@@ -109,13 +115,13 @@ class _PageSearchState extends State<PageSearch> {
                                         )
                                       : Container();
                                 }),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return const Text(
-                            "Errore durante il caricamento dei dati.");
-                      } else {
-                        return const CircularProgressIndicator();
+                          );
+                        } else if (snapshot.hasError) {
+                          return const Text(
+                              "Errore durante il caricamento dei dati.");
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
                       }
                     }),
               )

@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:progetto_programmazione_ios/ChipController.dart';
 import 'package:progetto_programmazione_ios/PageSearch.dart';
+import 'package:progetto_programmazione_ios/RestaurantDetail.dart';
 import 'package:progetto_programmazione_ios/firebase_controller.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
@@ -40,8 +41,6 @@ class _PageRistorantiState extends State<PageRistoranti> {
   _PageRistorantiState(this.user);
 
   int _selectedIndex = 0;
-
-  String filter = '';
 
   void _onItemTapped(int index) {
     setState(() {
@@ -132,9 +131,21 @@ class _PageRistorantiState extends State<PageRistoranti> {
                       shrinkWrap: true,
                       itemCount: firebaseController.RatingRestaurantList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return CardRistorante(
-                            restaurant:
-                                firebaseController.RatingRestaurantList[index]);
+                        return InkWell(
+                          child: CardRistorante(
+                              restaurant:
+                                  firebaseController.RatingRestaurantList[index]),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      RestaurantDetail(
+                                          firebaseController.RatingRestaurantList[index],
+                                          user)),
+                            );
+                          },
+                        );
                       },
                     ),
                   )),
@@ -158,7 +169,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
               ),
               Obx(() => Wrap(
                   spacing: 20,
-                  children: List<Widget>.generate(8, (index) {
+                  children: List<Widget>.generate(_chipLabel.length, (index) {
                     return ChoiceChip(
                         labelStyle: const TextStyle(color: Colors.red),
                         shape: RoundedRectangleBorder(
@@ -170,7 +181,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
                         label: Text(_chipLabel[index]),
                         selected: chipController.selectedChip == index,
                         onSelected: (bool selected) {
-                          chipController.selectedChip = selected ? index : null;
+                          chipController.selectedChip = selected ? index : 0;
                           firebaseController.onInit();
                           firebaseController.getRestaurants(
                               Filter.values[chipController.selectedChip]);
@@ -183,9 +194,21 @@ class _PageRistorantiState extends State<PageRistoranti> {
                       shrinkWrap: true,
                       itemCount: firebaseController.restaurantList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return CardRistorante(
-                            restaurant:
-                                firebaseController.restaurantList[index]);
+                        return InkWell(
+                          child: CardRistorante(
+                              restaurant:
+                              firebaseController.restaurantList[index]),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      RestaurantDetail(
+                                          firebaseController.restaurantList[index],
+                                          user)),
+                            );
+                          },
+                        );
                       },
                     ),
                   ))

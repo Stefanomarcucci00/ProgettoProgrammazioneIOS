@@ -47,14 +47,14 @@ class RestaurantModel {
 }
 
 enum Filter {
+  Pizza,
+  Burger,
+  Italiano,
+  Cinese,
+  Giapponese,
+  Indiano,
+  Greco,
+  VEGAN,
   RATING,
   ALL,
-  PIZZA,
-  BURGER,
-  ITALIANO,
-  CINESE,
-  GIAPPONESE,
-  INDIANO,
-  GRECO,
-  VEGAN
 }

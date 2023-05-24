@@ -7,101 +7,146 @@ import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 
 class FirebaseController extends GetxController {
   var restaurantList = <RestaurantModel>[].obs;
-  var RatingRestaurantList = <RestaurantModel>[].obs;
+  var restaurantListRating = <RestaurantModel>[].obs;
   late Future<List<RestaurantModel>> allRestaurants;
 
   final ChipController _chipController = Get.put(ChipController());
 
   @override
   void onInit() {
-    RatingRestaurantList
-        .bindStream(convertFutureToStream(getRestaurants(Filter.RATING)));
-    allRestaurants = getRestaurants(Filter.ALL);
-    restaurantList.bindStream(convertFutureToStream(
-        getRestaurants(Filter.values[_chipController.selectedChip])));
+    restaurantListRating.bindStream(getRestaurantData(Filter.RATING));
+    restaurantList.bindStream(
+        getRestaurantData(Filter.values[_chipController.selectedChip]));
     super.onInit();
   }
 
-  Future<List<RestaurantModel>> getRestaurants(Filter tipologia) async {
-    final List<RestaurantModel> restaurantList =
-        []; // lista di ristoranti vuota
-    final snapshot = await FirebaseDatabase.instance.ref('Ristoranti').get();
-    final map = snapshot.value as Map<dynamic, dynamic>;
+  Stream<List<RestaurantModel>> getRestaurantData(Filter tipologia) {
+    DatabaseReference dbRef = FirebaseDatabase.instance.ref('Ristoranti');
 
-    switch (tipologia) {
-      case Filter.ALL:
-        map.forEach((key, value) {
-          final restaurant = RestaurantModel.fromMap(value);
-          restaurantList.add(restaurant);
-        });
-        return restaurantList;
-      case Filter.RATING:
-        map.forEach((key, value) {
-          final restaurant = RestaurantModel.fromMap(value);
-          if (restaurant.ratingR >= 3.5) {
-            restaurantList.add(restaurant);
-          }
-        });
-        return restaurantList;
-      case Filter.VEGAN:
-        map.forEach((key, value) {
-          final restaurant = RestaurantModel.fromMap(value);
-          if (restaurant.veganR) {
-            restaurantList.add(restaurant);
-          }
-        });
-        return restaurantList;
-      default:
-        map.forEach((key, value) {
-          final restaurant = RestaurantModel.fromMap(value);
-          if (restaurant.tipoCiboR
-              .toLowerCase()
-              .contains(tipologia.toString().toLowerCase())) {
-            restaurantList.add(restaurant);
-          }
-        });
-        return restaurantList;
-    }
-  }
+    return dbRef.onValue.map((event) {
+      final map = event.snapshot.value as Map<dynamic, dynamic>;
 
-  Stream<List<RestaurantModel>> convertFutureToStream(
-      Future<List<RestaurantModel>> future) {
-    late StreamController<List<RestaurantModel>> controller;
-    Stream<List<RestaurantModel>> stream;
-
-    void onData(List<RestaurantModel> data) {
-      if (!controller.isClosed) {
-        controller.add(data);
+      switch (tipologia) {
+        case Filter.ALL:
+          List<RestaurantModel> restaurants = [];
+          map.forEach((key, value) {
+            final restaurant = RestaurantModel.fromMap(value);
+            restaurants.add(restaurant);
+          });
+          return restaurants;
+        case Filter.RATING:
+          List<RestaurantModel> restaurants = [];
+          map.forEach((key, value) {
+            final restaurant = RestaurantModel.fromMap(value);
+            if (restaurant.ratingR >= 3.5) {
+              restaurants.add(restaurant);
+            }
+          });
+          return restaurants;
+        case Filter.VEGAN:
+          List<RestaurantModel> restaurants = [];
+          map.forEach((key, value) {
+            final restaurant = RestaurantModel.fromMap(value);
+            if (restaurant.veganR) {
+              restaurants.add(restaurant);
+            }
+          });
+          return restaurants;
+        case Filter.Pizza:
+          List<RestaurantModel> restaurants = [];
+          map.forEach((key, value) {
+            final restaurant = RestaurantModel.fromMap(value);
+            List<String> substring = restaurant.tipoCiboR.split(',');
+            for (String substring in substring) {
+              if (substring.contains('Pizza')) {
+                print(restaurant);
+                restaurants.add(restaurant);
+              }
+            }
+          });
+          return restaurants;
+        case Filter.Burger:
+          List<RestaurantModel> restaurants = [];
+          map.forEach((key, value) {
+            final restaurant = RestaurantModel.fromMap(value);
+            List<String> substring = restaurant.tipoCiboR.split(',');
+            for (String substring in substring) {
+              if (substring.contains('Burger')) {
+                print(restaurant);
+                restaurants.add(restaurant);
+              }
+            }
+          });
+          return restaurants;
+        case Filter.Italiano:
+          List<RestaurantModel> restaurants = [];
+          map.forEach((key, value) {
+            final restaurant = RestaurantModel.fromMap(value);
+            List<String> substring = restaurant.tipoCiboR.split(',');
+            for (String substring in substring) {
+              if (substring.contains('Italiano')) {
+                print(restaurant);
+                restaurants.add(restaurant);
+              }
+            }
+          });
+          return restaurants;
+        case Filter.Cinese:
+          List<RestaurantModel> restaurants = [];
+          map.forEach((key, value) {
+            final restaurant = RestaurantModel.fromMap(value);
+            List<String> substring = restaurant.tipoCiboR.split(',');
+            for (String substring in substring) {
+              if (substring.contains('Cinese')) {
+                print(restaurant);
+                restaurants.add(restaurant);
+              }
+            }
+          });
+          return restaurants;
+        case Filter.Giapponese:
+          List<RestaurantModel> restaurants = [];
+          map.forEach((key, value) {
+            final restaurant = RestaurantModel.fromMap(value);
+            List<String> substring = restaurant.tipoCiboR.split(',');
+            for (String substring in substring) {
+              if (substring.contains('Giapponese')) {
+                print(restaurant);
+                restaurants.add(restaurant);
+              }
+            }
+          });
+          return restaurants;
+        case Filter.Indiano:
+          List<RestaurantModel> restaurants = [];
+          map.forEach((key, value) {
+            final restaurant = RestaurantModel.fromMap(value);
+            List<String> substring = restaurant.tipoCiboR.split(',');
+            for (String substring in substring) {
+              if (substring.contains('Indiano')) {
+                print(restaurant);
+                restaurants.add(restaurant);
+              }
+            }
+          });
+          return restaurants;
+        case Filter.Greco:
+          List<RestaurantModel> restaurants = [];
+          map.forEach((key, value) {
+            final restaurant = RestaurantModel.fromMap(value);
+            List<String> substring = restaurant.tipoCiboR.split(',');
+            for (String substring in substring) {
+              if (substring.contains('Greco')) {
+                print(restaurant);
+                restaurants.add(restaurant);
+              }
+            }
+          });
+          return restaurants;
+        default:
+          List<RestaurantModel> restaurants = [];
+          return restaurants;
       }
-    }
-
-    void onError(Object error) {
-      if (!controller.isClosed) {
-        controller.addError(error);
-      }
-    }
-
-    void onDone() {
-      if (!controller.isClosed) {
-        controller.close();
-      }
-    }
-
-    controller = StreamController<List<RestaurantModel>>(
-      onListen: () {
-        future.then((data) {
-          onData(data);
-          onDone();
-        }).catchError((error) {
-          onError(error);
-          onDone();
-        });
-      },
-      onCancel: () => controller.close(),
-    );
-
-    stream = controller.stream;
-
-    return stream;
+    });
   }
 }

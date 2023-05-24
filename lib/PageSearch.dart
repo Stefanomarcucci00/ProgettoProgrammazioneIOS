@@ -10,7 +10,7 @@ import 'models/Restaurant.dart';
 
 class PageSearch extends StatefulWidget {
   final User? user;
-  final Future<List<RestaurantModel>> restaurantList;
+  final Stream<List<RestaurantModel>> restaurantList;
 
   const PageSearch({super.key, this.user, required this.restaurantList});
 
@@ -21,7 +21,7 @@ class PageSearch extends StatefulWidget {
 class _PageSearchState extends State<PageSearch> {
   final User? user;
 
-  Future<List<RestaurantModel>> restaurantList;
+  Stream<List<RestaurantModel>> restaurantList;
 
   _PageSearchState(this.user, this.restaurantList);
 
@@ -77,8 +77,8 @@ class _PageSearchState extends State<PageSearch> {
                 height: 20,
               ),
               SizedBox(
-                child: FutureBuilder(
-                    future: restaurantList,
+                child: StreamBuilder(
+                    stream: restaurantList,
                     builder: (BuildContext context,
                         AsyncSnapshot<List<RestaurantModel>> snapshot) {
                       if (searchText.isEmpty) {

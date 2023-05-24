@@ -107,7 +107,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
                             builder: (context) => PageSearch(
                                 user: user,
                                 restaurantList:
-                                    firebaseController.allRestaurants)));
+                                    firebaseController.getRestaurantData(Filter.ALL))));
                   }),
               Container(
                 height: 1,
@@ -129,19 +129,19 @@ class _PageRistorantiState extends State<PageRistoranti> {
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: firebaseController.RatingRestaurantList.length,
+                      itemCount: firebaseController.restaurantListRating.length,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           child: CardRistorante(
                               restaurant:
-                                  firebaseController.RatingRestaurantList[index]),
+                                  firebaseController.restaurantListRating[index]),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                       RestaurantDetail(
-                                          firebaseController.RatingRestaurantList[index],
+                                          firebaseController.restaurantListRating[index],
                                           user)),
                             );
                           },
@@ -183,7 +183,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
                         onSelected: (bool selected) {
                           chipController.selectedChip = selected ? index : 0;
                           firebaseController.onInit();
-                          firebaseController.getRestaurants(
+                          firebaseController.getRestaurantData(
                               Filter.values[chipController.selectedChip]);
                         });
                   }))),

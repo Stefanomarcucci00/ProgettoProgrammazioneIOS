@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto_programmazione_ios/models/User.dart';
@@ -87,6 +88,49 @@ class _PageProfiloState extends State<PageProfilo> {
             builder:(BuildContext context, AsyncSnapshot<UserModel> snapshot) {
               return Expanded(child: Column(
                 children: [
+                  Row(
+                    children: [
+                      Card(
+                          elevation: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: FutureBuilder(
+                              future: FirebaseStorage.instance
+                                  .ref(snapshot.data!.Uri)
+                                  .getDownloadURL(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Container(
+                                    width: 150.0,
+                                    height: 150.0,
+                                    color: Colors.grey,
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Container(
+                                    width: 150.0,
+                                    height: 150.0,
+                                    color: Colors.red,
+                                  );
+                                } else {
+                                  return Container(
+                                    width: 150.0,
+                                    height: 150.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      image: DecorationImage(
+                                        image: NetworkImage(snapshot.data!),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          )),
+                    ],
+                  ),
                   MyTextField(hintText: snapshot.data!.Nome, obscureText: false, enabled: false),
                   const SizedBox(height: 10),
                   MyTextField(hintText: snapshot.data!.Cognome, obscureText: false, enabled: false),

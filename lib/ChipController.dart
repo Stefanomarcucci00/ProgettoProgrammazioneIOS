@@ -6,3 +6,9 @@ class ChipController extends GetxController {
   get selectedChip => this._selectedChip.value;
   set selectedChip(index) => this._selectedChip.value = index;
 }
+
+class ChipControllerMenu extends GetxController {
+  var _selectedChip = 0.obs;
+  get selectedChip => this._selectedChip.value;
+  set selectedChip(index) => this._selectedChip.value = index;
+}

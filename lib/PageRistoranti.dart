@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:progetto_programmazione_ios/ChipController.dart';
 import 'package:progetto_programmazione_ios/PageSearch.dart';
 import 'package:progetto_programmazione_ios/RestaurantDetail.dart';
-import 'package:progetto_programmazione_ios/firebase_controller.dart';
+import 'package:progetto_programmazione_ios/FirebaseControllerRestaurants.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 import 'Intro/PageIntro.dart';
@@ -22,7 +22,7 @@ class PageRistoranti extends StatefulWidget {
 }
 
 class _PageRistorantiState extends State<PageRistoranti> {
-  final FirebaseController firebaseController = Get.put(FirebaseController());
+  final FirebaseControllerRist firebaseController = Get.put(FirebaseControllerRist());
   final ChipController chipController = Get.put(ChipController());
 
   final List<String> _chipLabel = [

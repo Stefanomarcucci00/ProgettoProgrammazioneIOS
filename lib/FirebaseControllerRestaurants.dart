@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:progetto_programmazione_ios/ChipController.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 
-class FirebaseController extends GetxController {
+class FirebaseControllerRist extends GetxController {
   var restaurantList = <RestaurantModel>[].obs;
   var restaurantListRating = <RestaurantModel>[].obs;
   late Future<List<RestaurantModel>> allRestaurants;
@@ -59,7 +59,6 @@ class FirebaseController extends GetxController {
             List<String> substring = restaurant.tipoCiboR.split(',');
             for (String substring in substring) {
               if (substring.contains('Pizza')) {
-                print(restaurant);
                 restaurants.add(restaurant);
               }
             }
@@ -72,7 +71,6 @@ class FirebaseController extends GetxController {
             List<String> substring = restaurant.tipoCiboR.split(',');
             for (String substring in substring) {
               if (substring.contains('Burger')) {
-                print(restaurant);
                 restaurants.add(restaurant);
               }
             }
@@ -85,7 +83,6 @@ class FirebaseController extends GetxController {
             List<String> substring = restaurant.tipoCiboR.split(',');
             for (String substring in substring) {
               if (substring.contains('Italiano')) {
-                print(restaurant);
                 restaurants.add(restaurant);
               }
             }
@@ -98,7 +95,6 @@ class FirebaseController extends GetxController {
             List<String> substring = restaurant.tipoCiboR.split(',');
             for (String substring in substring) {
               if (substring.contains('Cinese')) {
-                print(restaurant);
                 restaurants.add(restaurant);
               }
             }
@@ -111,7 +107,6 @@ class FirebaseController extends GetxController {
             List<String> substring = restaurant.tipoCiboR.split(',');
             for (String substring in substring) {
               if (substring.contains('Giapponese')) {
-                print(restaurant);
                 restaurants.add(restaurant);
               }
             }
@@ -124,7 +119,6 @@ class FirebaseController extends GetxController {
             List<String> substring = restaurant.tipoCiboR.split(',');
             for (String substring in substring) {
               if (substring.contains('Indiano')) {
-                print(restaurant);
                 restaurants.add(restaurant);
               }
             }
@@ -137,7 +131,6 @@ class FirebaseController extends GetxController {
             List<String> substring = restaurant.tipoCiboR.split(',');
             for (String substring in substring) {
               if (substring.contains('Greco')) {
-                print(restaurant);
                 restaurants.add(restaurant);
               }
             }

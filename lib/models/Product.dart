@@ -1,18 +1,18 @@
-class CartModel {
+class ProductModel {
   final String nomeP;
   final String prezzoP;
   final String descrizioneP;
   final String idP;
 
-  CartModel({
+  ProductModel({
     required this.nomeP,
     required this.prezzoP,
     required this.descrizioneP,
     required this.idP,
   });
 
-  factory CartModel.fromMap(Map<dynamic, dynamic> map) {
-    return CartModel(
+  factory ProductModel.fromMap(Map<dynamic, dynamic> map) {
+    return ProductModel(
       nomeP: map['nomeP'],
       prezzoP: map['prezzoP'],
       descrizioneP: map['descrizioneP'],
@@ -20,3 +20,5 @@ class CartModel {
     );
   }
 }
+
+enum FilterMenu { Bevande, Antipasti, Primi, Secondi, Contorni, Dolci }

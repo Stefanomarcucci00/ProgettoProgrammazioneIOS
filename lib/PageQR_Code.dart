@@ -59,7 +59,7 @@ class _PageQR_CodeState extends State<PageQR_Code> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const CustomAppBar(
-          pageName: 'Carrello',
+          pageName: 'I tuoi codiciQR',
           backArrow: false,
         ),
         bottomNavigationBar: CustomBottomNavigationBar(

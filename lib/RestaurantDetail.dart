@@ -81,48 +81,22 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
             ],
           ),
           const SizedBox(width: 16.0),
-          Card(
-              child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FutureBuilder(
-                        future: firebase_storage.FirebaseStorage.instance
-                            .ref(imageUrl)
-                            .getDownloadURL(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<String> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Container(
-                              width: 80.0,
-                              height: 80.0,
-                              color: Colors.grey,
-                            );
-                          } else if (snapshot.hasError) {
-                            return Container(
-                              width: 80.0,
-                              height: 80.0,
-                              color: Colors.red,
-                            );
-                          } else {
-                            return Container(
-                              width: 80.0,
-                              height: 80.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.0),
-                                image: DecorationImage(
-                                  image: NetworkImage(snapshot.data!),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ],
-                  )))
+          Row(
+            children: [
+                Container(
+                  width: 80.0,
+                  height: 80.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    image: DecorationImage(
+                      image: NetworkImage(restaurant.imageR),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+
+            ],
+          ),
         ]));
   }
 }

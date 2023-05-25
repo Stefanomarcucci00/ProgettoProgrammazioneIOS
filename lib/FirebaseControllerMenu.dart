@@ -7,15 +7,15 @@ import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 
 import 'models/Product.dart';
 
-class FirebaseController extends GetxController {
+class FirebaseControllerMenu extends GetxController {
   var menuList = <ProductModel>[].obs;
-  late RestaurantModel restaurant;
+  var restaurant = RestaurantModel;
 
   final ChipController _chipController = Get.put(ChipController());
 
   @override
   void onInit() {
-    menuList.bindStream(getMenuData(restaurant, FilterMenu.values[_chipController.selectedChip]));
+    menuList.bindStream(getMenuData(restaurant as RestaurantModel, FilterMenu.values[_chipController.selectedChip]));
     super.onInit();
   }
 

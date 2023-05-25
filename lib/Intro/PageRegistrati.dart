@@ -61,8 +61,6 @@ class _PageRegisterState extends State<PageRegister> {
             .createUserWithEmailAndPassword(email: email, password: password);
         User? user = userCredential.user;
 
-
-
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => PageLogin()),

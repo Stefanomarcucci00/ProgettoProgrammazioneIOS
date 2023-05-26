@@ -22,7 +22,7 @@ class PageRistoranti extends StatefulWidget {
 }
 
 class _PageRistorantiState extends State<PageRistoranti> {
-  final FirebaseController firebaseController = Get.put(FirebaseController());
+  final FirebaseControllerRist firebaseController = Get.put(FirebaseControllerRist());
   final ChipController chipController = Get.put(ChipController());
 
   final List<String> _chipLabel = [

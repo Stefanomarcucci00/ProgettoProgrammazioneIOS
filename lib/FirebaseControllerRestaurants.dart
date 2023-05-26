@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:progetto_programmazione_ios/ChipController.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 
-class FirebaseController extends GetxController {
+class FirebaseControllerRist extends GetxController {
   var restaurantList = <RestaurantModel>[].obs;
   var restaurantListRating = <RestaurantModel>[].obs;
   late Future<List<RestaurantModel>> allRestaurants;

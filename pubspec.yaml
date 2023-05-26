@@ -39,7 +39,7 @@ dependencies:
   flutter_bloc:
   equatable:
 
-
+  qr_flutter: ^4.0.0
   #Firebase auth and firebase core
   firebase_core: ^2.13.0
   firebase_auth: ^4.5.0

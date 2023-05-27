@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
 import 'ChipController.dart';
@@ -31,7 +29,6 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
 
   _RestaurantDetailState(this.restaurant, this.user);
 
-  final FirebaseControllerMenu firebaseController = Get.put(FirebaseControllerMenu());
   final ChipControllerMenu chipController = Get.put(ChipControllerMenu());
 
   final List<String> _chipLabel = [
@@ -72,8 +69,13 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String imageUrl = restaurant.imageR.toString();
+    FirebaseControllerMenu firebaseController = Get.put(FirebaseControllerMenu(restaurant));
 
     return Scaffold(
         appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: true),
@@ -213,11 +215,22 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                     selected: chipController.selectedChip == index,
                     onSelected: (bool selected) {
                       chipController.selectedChip = selected ? index : 0;
-                      //firebaseController.getMenuData(restaurant,
-                      //    FilterMenu.values[chipController.selectedChip]);
-                      //firebaseController.onInit();
+                      firebaseController.onInit();
+                      firebaseController.getMenuData(FilterMenu.values[chipController.selectedChip]);
                     });
               }))),
+          Obx(() => Expanded(
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: firebaseController.menuList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CardProduct(
+                        product: firebaseController.menuList[index]);
+                  },
+                ),
+              ))
         ]));
   }
 }

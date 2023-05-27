@@ -6,6 +6,7 @@ import 'package:progetto_programmazione_ios/PageQR_Code.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 
 import '../RestaurantDetail.dart';
+import '../models/Product.dart';
 
 class RedButton extends StatelessWidget {
   final String buttonText;
@@ -343,6 +344,68 @@ class CardRistorante extends StatelessWidget {
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardProduct extends StatelessWidget {
+  final ProductModel product;
+
+  const CardProduct({super.key, required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController numberController = TextEditingController();
+
+    return Center(
+      child: Card(
+        clipBehavior: Clip.hardEdge,
+        child: SizedBox(
+          width: 150,
+          height: MediaQuery.of(context).size.height * 0.39,
+          child: Column(
+            children: [
+              Text(
+                product.nomeP,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  color: Colors.white,
+                  backgroundColor: Colors.red,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 20),
+              Text(
+                product.descrizioneP,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 20),
+              MyTextField(
+                  controller: numberController,
+                  hintText: "0",
+                  obscureText: false,
+                  enabled: true),
+              const SizedBox(height: 20),
+              RedButton(
+                buttonText: 'AGGIUNGI',
+                onPressed: () async {
+                  //FUNZIONE CHE AGGIUNGE PRODOTTO AL CARRELLO
+                },
               ),
             ],
           ),

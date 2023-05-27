@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
-import 'package:progetto_programmazione_ios/viewmodels/CartViewModel.dart';
 import 'package:provider/provider.dart';
 
 import 'Intro/PageIntro.dart';
@@ -29,7 +28,7 @@ class _PageCarrelloState extends State<PageCarrello> {
 
   @override
   void initState() {
-    cartProductList = Provider.of<CartViewModel>(context, listen: false);
+    //cartProductList = Provider.of<CartViewModel>(context, listen: false);
     cartProductList.getAllProducts();
 
     super.initState();
@@ -73,24 +72,6 @@ class _PageCarrelloState extends State<PageCarrello> {
         ),
         bottomNavigationBar: CustomBottomNavigationBar(
             selectedIndex: _selectedIndex, onItemTapped: _onItemTapped),
-        body: Consumer<CartViewModel>(builder: (context, data, child) {
-          return ListView.builder(
-            itemCount: data.cartProductList.length,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    //CAPIRE DOVE METTERE IL WIDGET OBV()
-                    //DETTAGLI DEI PRODOTTI DEL CARRELLO POSSIBILE CARD PRODOTTO
-
-
-                  ],
-                ),
-              );
-            },
-          );
-        }));
+        );
   }
 }

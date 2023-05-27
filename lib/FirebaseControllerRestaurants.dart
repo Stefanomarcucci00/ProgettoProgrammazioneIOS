@@ -8,7 +8,6 @@ import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 class FirebaseControllerRist extends GetxController {
   var restaurantList = <RestaurantModel>[].obs;
   var restaurantListRating = <RestaurantModel>[].obs;
-  late Future<List<RestaurantModel>> allRestaurants;
 
   final ChipController _chipController = Get.put(ChipController());
 

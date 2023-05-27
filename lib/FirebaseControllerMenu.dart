@@ -9,18 +9,21 @@ import 'models/Product.dart';
 
 class FirebaseControllerMenu extends GetxController {
   var menuList = <ProductModel>[].obs;
-  var restaurant = RestaurantModel;
+  var restaurant;
 
-  final ChipController _chipController = Get.put(ChipController());
+  FirebaseControllerMenu(this.restaurant);
+
+  final ChipControllerMenu _chipController = Get.put(ChipControllerMenu());
 
   @override
   void onInit() {
-    menuList.bindStream(getMenuData(restaurant as RestaurantModel, FilterMenu.values[_chipController.selectedChip]));
+    menuList.bindStream(getMenuData( FilterMenu.values[_chipController.selectedChip]));
     super.onInit();
   }
 
-  Stream<List<ProductModel>> getMenuData(RestaurantModel restaurant, FilterMenu tipologia) {
-    DatabaseReference dbRef = FirebaseDatabase.instance.ref('Ristoranti/${restaurant.idR}/Menu/$tipologia');
+  Stream<List<ProductModel>> getMenuData(FilterMenu tipologia) {
+    DatabaseReference dbRef = FirebaseDatabase.instance
+        .ref('Ristoranti/${restaurant!.idR}/Menu/${tipologia.name.toString()}');
 
     return dbRef.onValue.map((event) {
       final map = event.snapshot.value as Map<dynamic, dynamic>;
@@ -37,14 +40,14 @@ class FirebaseControllerMenu extends GetxController {
           List<ProductModel> antipasti = [];
           map.forEach((key, value) {
             final product = ProductModel.fromMap(value);
-              antipasti.add(product);
+            antipasti.add(product);
           });
           return antipasti;
         case FilterMenu.Primi:
           List<ProductModel> primi = [];
           map.forEach((key, value) {
             final product = ProductModel.fromMap(value);
-              primi.add(product);
+            primi.add(product);
           });
           return primi;
         case FilterMenu.Secondi:

@@ -5,7 +5,6 @@ import 'package:progetto_programmazione_ios/PageCarrello.dart';
 import 'package:progetto_programmazione_ios/PageQR_Code.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 
-import '../RestaurantDetail.dart';
 import '../models/Product.dart';
 
 class RedButton extends StatelessWidget {
@@ -342,7 +341,7 @@ class CardRistorante extends StatelessWidget {
                   color: Colors.red,
                   fontSize: 14,
                 ),
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
@@ -363,51 +362,80 @@ class CardProduct extends StatelessWidget {
     TextEditingController numberController = TextEditingController();
 
     return Center(
-      child: Card(
-        clipBehavior: Clip.hardEdge,
-        child: SizedBox(
-          width: 150,
-          height: MediaQuery.of(context).size.height * 0.39,
-          child: Column(
-            children: [
-              Text(
-                product.nomeP,
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                  color: Colors.white,
-                  backgroundColor: Colors.red,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 20),
-              Text(
-                product.descrizioneP,
-                textAlign: TextAlign.left,
-                style: const TextStyle(
+      child: SizedBox(
+        width: 150,
+        child: Card(
+          clipBehavior: Clip.hardEdge,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 250),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
                   color: Colors.red,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: product.nomeP,
+                        hintStyle: const TextStyle(color: Colors.white),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 20),
-              MyTextField(
+                const SizedBox(height: 10),
+                Expanded(
+                  child: Text(
+                    product.descrizioneP,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextField(
                   controller: numberController,
-                  hintText: "0",
-                  obscureText: false,
-                  enabled: true),
-              const SizedBox(height: 20),
-              RedButton(
-                buttonText: 'AGGIUNGI',
-                onPressed: () async {
-                  //FUNZIONE CHE AGGIUNGE PRODOTTO AL CARRELLO
-                },
-              ),
-            ],
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, background: Paint()
+                    ..strokeWidth = 20.0
+                    ..color = Colors.red
+                    ..style = PaintingStyle.stroke
+                    ..strokeJoin = StrokeJoin.round),
+                  decoration: const InputDecoration(
+                    hintText: '0',
+                    hintStyle: TextStyle(color: Colors.white),
+                    border: InputBorder.none,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  color: Colors.red,
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 1.0),
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: 'Aggiungi',
+                        hintStyle: TextStyle(color: Colors.white),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -26,6 +26,7 @@ class RestaurantDetail extends StatefulWidget {
 class _RestaurantDetailState extends State<RestaurantDetail> {
   final RestaurantModel restaurant;
   final User? user;
+  late FirebaseControllerMenu firebaseController;
 
   _RestaurantDetailState(this.restaurant, this.user);
 
@@ -71,12 +72,17 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
   @override
   void initState() {
     super.initState();
+    firebaseController = Get.put(FirebaseControllerMenu(restaurant));
+  }
+
+  @override
+  void dispose() {
+    Get.delete<FirebaseControllerMenu>();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    FirebaseControllerMenu firebaseController = Get.put(FirebaseControllerMenu(restaurant));
-
     return Scaffold(
         appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: true),
         bottomNavigationBar: CustomBottomNavigationBar(
@@ -84,6 +90,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
           onItemTapped: _onItemTapped,
         ),
         body: Column(children: [
+          const SizedBox(height: 20),
           Text(
             restaurant.nomeR.toString(),
             style: const TextStyle(
@@ -93,8 +100,11 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(width: 16.0),
+          const SizedBox(height: 20),
           Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: const BorderSide(color: Colors.red)),
             elevation: 5,
             child: Row(
               children: [
@@ -152,50 +162,109 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                         ),
                       ],
                     ),
-                    Text(
-                      "Descrizione: ${restaurant.descrizioneR}",
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: [
+                        const Text(
+                          "Descrizione: ",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          restaurant.descrizioneR,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                    Text(
-                      "Indirizzo: ${restaurant.indirizzoR}",
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: [
+                        const Text(
+                          "Indirizzo: ",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          restaurant.indirizzoR,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                    Text(
-                      "Cucina: ${restaurant.tipoCiboR}",
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: [
+                        const Text(
+                          "Cucina: ",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          restaurant.tipoCiboR,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                    Text(
-                      "Telefono: ${restaurant.telefonoR}",
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: [
+                        const Text(
+                          "Telefono: ",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          restaurant.telefonoR,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
                   ],
                 )
               ],
             ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            height: 1,
+            color: Colors.red,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            'Menù',
+            style: TextStyle(
+                color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20),
           ),
           const SizedBox(
             height: 20,
@@ -216,9 +285,11 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                     onSelected: (bool selected) {
                       chipController.selectedChip = selected ? index : 0;
                       firebaseController.onInit();
-                      firebaseController.getMenuData(FilterMenu.values[chipController.selectedChip]);
+                      firebaseController.getMenuData(
+                          FilterMenu.values[chipController.selectedChip]);
                     });
               }))),
+          const SizedBox(height: 20),
           Obx(() => Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,

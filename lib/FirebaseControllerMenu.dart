@@ -9,7 +9,7 @@ import 'models/Product.dart';
 
 class FirebaseControllerMenu extends GetxController {
   var menuList = <ProductModel>[].obs;
-  var restaurant;
+  dynamic restaurant;
 
   FirebaseControllerMenu(this.restaurant);
 

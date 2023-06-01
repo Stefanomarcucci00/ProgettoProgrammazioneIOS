@@ -25,4 +25,15 @@ class CartProductModel {
       pID: map['pID'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'pName': pName,
+      'pDesc': pDesc,
+      'quantity': quantity,
+      'totPrice': totPrice,
+      'restID': restID,
+      'pID': pID
+    };
+  }
 }

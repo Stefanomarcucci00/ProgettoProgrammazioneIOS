@@ -93,93 +93,122 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
           selectedIndex: _selectedIndex,
           onItemTapped: _onItemTapped,
         ),
-        body: Column(children: [
-          const SizedBox(height: 20),
-          Text(
-            restaurant.nomeR.toString(),
-            style: const TextStyle(
-              color: Colors.red,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/background_splash_2.jpg'),
+              fit: BoxFit.cover,
             ),
-            textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 20),
-          Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                side: const BorderSide(color: Colors.red)),
-            elevation: 5,
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: FutureBuilder(
-                    future: FirebaseStorage.instance
-                        .ref(restaurant.imageR)
-                        .getDownloadURL(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container(
-                          width: 150.0,
-                          height: 150.0,
-                          color: Colors.grey,
-                        );
-                      } else if (snapshot.hasError) {
-                        return Container(
-                          width: 150.0,
-                          height: 150.0,
-                          color: Colors.red,
-                        );
-                      } else {
-                        return Container(
-                          width: 150.0,
-                          height: 150.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            image: DecorationImage(
-                              image: NetworkImage(snapshot.data!),
-                              fit: BoxFit.cover,
+          child: Column(children: [
+            const SizedBox(height: 20),
+            Text(
+              restaurant.nomeR.toString(),
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  side: const BorderSide(color: Colors.red)),
+              elevation: 5,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: FutureBuilder(
+                      future: FirebaseStorage.instance
+                          .ref(restaurant.imageR)
+                          .getDownloadURL(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<String> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Container(
+                            width: 150.0,
+                            height: 150.0,
+                            color: Colors.grey,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Container(
+                            width: 150.0,
+                            height: 150.0,
+                            color: Colors.red,
+                          );
+                        } else {
+                          return Container(
+                            width: 150.0,
+                            height: 150.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: NetworkImage(snapshot.data!),
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    },
+                          );
+                        }
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          Text(
-                            restaurant.ratingR.toStringAsFixed(2),
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 14,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.star,
+                              color: Colors.yellow,
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Text(
-                            "Descrizione: ",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
+                            Text(
+                              restaurant.ratingR.toStringAsFixed(2),
+                              style: const TextStyle(
                                 color: Colors.red,
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Expanded(
-                            child: Text(
-                              restaurant.descrizioneR,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              "Descrizione: ",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Expanded(
+                              child: Text(
+                                restaurant.descrizioneR,
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              "Indirizzo: ",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              restaurant.indirizzoR,
                               style: const TextStyle(
                                 color: Colors.red,
                                 fontSize: 14,
@@ -187,131 +216,110 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Text(
-                            "Indirizzo: ",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              "Cucina: ",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              restaurant.tipoCiboR,
+                              style: const TextStyle(
                                 color: Colors.red,
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            restaurant.indirizzoR,
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 14,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Text(
-                            "Cucina: ",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              "Telefono: ",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              restaurant.telefonoR,
+                              style: const TextStyle(
                                 color: Colors.red,
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            restaurant.tipoCiboR,
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 14,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Text(
-                            "Telefono: ",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            restaurant.telefonoR,
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 14,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            height: 1,
-            color: Colors.red,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Text(
-            'Menù',
-            style: TextStyle(
-                color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Obx(() => Wrap(
-              spacing: 20,
-              children: List<Widget>.generate(_chipLabel.length, (index) {
-                return ChoiceChip(
-                    labelStyle: const TextStyle(color: Colors.red),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                      side: const BorderSide(color: Colors.red, width: 0.5),
+                          ],
+                        ),
+                      ],
                     ),
-                    backgroundColor: Colors.white,
-                    selectedColor: Colors.red.shade100,
-                    label: Text(_chipLabel[index]),
-                    selected: chipController.selectedChip == index,
-                    onSelected: (bool selected) {
-                      chipController.selectedChip = selected ? index : 0;
-                      firebaseController.onInit();
-                      firebaseController.getMenuData(
-                          FilterMenu.values[chipController.selectedChip]);
-                    });
-              }))),
-          const SizedBox(height: 10),
-          Obx(() => Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: firebaseController.menuList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return CardProduct(
-                        restaurant: restaurant,
-                        provider: cartProvider,
-                        product: firebaseController.menuList[index]);
-                  },
-                ),
-              ))
-        ]));
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 1,
+              color: Colors.red,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              'Menù',
+              style: TextStyle(
+                  color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Obx(() => Wrap(
+                spacing: 20,
+                children: List<Widget>.generate(_chipLabel.length, (index) {
+                  return ChoiceChip(
+                      labelStyle: const TextStyle(color: Colors.red),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.0),
+                        side: const BorderSide(color: Colors.red, width: 0.5),
+                      ),
+                      backgroundColor: Colors.white,
+                      selectedColor: Colors.red.shade100,
+                      label: Text(_chipLabel[index]),
+                      selected: chipController.selectedChip == index,
+                      onSelected: (bool selected) {
+                        chipController.selectedChip = selected ? index : 0;
+                        firebaseController.onInit();
+                        firebaseController.getMenuData(
+                            FilterMenu.values[chipController.selectedChip]);
+                      });
+                }))),
+            const SizedBox(height: 10),
+            Obx(() => Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: firebaseController.menuList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardProduct(
+                          restaurant: restaurant,
+                          provider: cartProvider,
+                          product: firebaseController.menuList[index]);
+                    },
+                  ),
+                ))
+          ]),
+        ));
   }
 }

@@ -95,6 +95,12 @@ class _PageRistorantiState extends State<PageRistoranti> {
       ),
       body: SafeArea(
         child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/background_splash_2.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

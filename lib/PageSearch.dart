@@ -5,7 +5,7 @@ import 'package:progetto_programmazione_ios/theme/widgets.dart';
 import 'Intro/PageIntro.dart';
 import 'PageProfilo.dart';
 import 'PageRistoranti.dart';
-import 'RestaurantDetail.dart';
+import 'PageRestaurantDetail.dart';
 import 'models/Restaurant.dart';
 
 class PageSearch extends StatefulWidget {

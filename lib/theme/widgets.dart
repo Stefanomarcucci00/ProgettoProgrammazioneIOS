@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progetto_programmazione_ios/PageCarrello.dart';
 import 'package:progetto_programmazione_ios/PageQR_Code.dart';
+import 'package:progetto_programmazione_ios/models/CartProduct.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 
+import '../CartProvider.dart';
 import '../models/Product.dart';
 
 class RedButton extends StatelessWidget {
@@ -45,24 +48,27 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
-        enabled: enabled,
-        style: const TextStyle(color: Colors.white),
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          hintStyle: const TextStyle(color: Colors.white),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
+    return SizedBox(
+      width: 500,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: TextField(
+          enabled: enabled,
+          style: const TextStyle(color: Colors.white),
+          controller: controller,
+          obscureText: obscureText,
+          decoration: InputDecoration(
+            hintStyle: const TextStyle(color: Colors.white),
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.red),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade400),
+            ),
+            fillColor: Colors.red.shade400,
+            filled: true,
+            hintText: hintText,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey.shade400),
-          ),
-          fillColor: Colors.red.shade400,
-          filled: true,
-          hintText: hintText,
         ),
       ),
     );
@@ -354,12 +360,82 @@ class CardRistorante extends StatelessWidget {
 
 class CardProduct extends StatelessWidget {
   final ProductModel product;
+  final CartProvider provider;
+  final RestaurantModel restaurant;
 
-  const CardProduct({super.key, required this.product});
+  const CardProduct(
+      {super.key,
+      required this.product,
+      required this.provider,
+      required this.restaurant});
 
   @override
   Widget build(BuildContext context) {
     TextEditingController numberController = TextEditingController();
+
+    void Function() addCartItemCallback(
+        TextEditingController numberController,
+        CartProvider provider,
+        ProductModel product,
+        RestaurantModel restaurant) {
+      if (numberController.text != '0') {
+        if (provider.cartProducts.isNotEmpty) {
+          if (provider.cartProducts[0].restID == restaurant.idR) {
+            return () {
+              var tot = double.parse(numberController.text) *
+                  double.parse(product.prezzoP);
+              CartProductModel cartProduct = CartProductModel(
+                  pName: product.nomeP,
+                  pDesc: product.descrizioneP,
+                  quantity: numberController.text,
+                  totPrice: tot.toString(),
+                  restID: restaurant.idR,
+                  pID: product.idP);
+              provider.addProduct(cartProduct);
+            };
+          } else {
+            return () {
+              Fluttertoast.showToast(
+                  msg:
+                      "Hai selezionato un prodotto da un ristorante diverso da quello iniziale.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            };
+          }
+        } else {
+          return () {
+            var tot = double.parse(numberController.text) *
+                double.parse(product.prezzoP);
+            CartProductModel cartProduct = CartProductModel(
+                pName: product.nomeP,
+                pDesc: product.descrizioneP,
+                quantity: numberController.text,
+                totPrice: tot.toString(),
+                restID: restaurant.idR,
+                pID: product.idP);
+            provider.addProduct(cartProduct);
+          };
+        }
+      } else {
+        return () {
+          Fluttertoast.showToast(
+              msg: "Inserisci un numero diverso da 0.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        };
+      }
+    }
+
+    void Function() onTapCallback =
+        addCartItemCallback(numberController, provider, product, restaurant);
 
     return Center(
       child: SizedBox(
@@ -407,11 +483,13 @@ class CardProduct extends StatelessWidget {
                 TextField(
                   controller: numberController,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, background: Paint()
-                    ..strokeWidth = 20.0
-                    ..color = Colors.red
-                    ..style = PaintingStyle.stroke
-                    ..strokeJoin = StrokeJoin.round),
+                  style: TextStyle(
+                      color: Colors.white,
+                      background: Paint()
+                        ..strokeWidth = 20.0
+                        ..color = Colors.red
+                        ..style = PaintingStyle.stroke
+                        ..strokeJoin = StrokeJoin.round),
                   decoration: const InputDecoration(
                     hintText: '0',
                     hintStyle: TextStyle(color: Colors.white),
@@ -421,18 +499,120 @@ class CardProduct extends StatelessWidget {
                 const SizedBox(height: 20),
                 Container(
                   color: Colors.red,
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 1.0),
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 1.0),
+                      child: ElevatedButton(
+                          onPressed: () => onTapCallback(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                          ),
+                          child: const Text(
+                            'AGGIUNGI',
+                            style: TextStyle(color: Colors.white),
+                          ))),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardCartProduct extends StatelessWidget {
+  final CartProductModel product;
+  final CartProvider provider;
+
+  const CardCartProduct({super.key, required this.product, required this.provider});
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController numberController = TextEditingController();
+
+    void removeProduct() {
+      provider.removeProduct(product);
+    }
+
+    return Center(
+      child: SizedBox(
+        width: 150,
+        child: Card(
+          clipBehavior: Clip.hardEdge,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 250),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  color: Colors.red,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextField(
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        hintText: 'Aggiungi',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintText: product.pName,
+                        hintStyle: const TextStyle(color: Colors.white),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: Text(
+                    product.pDesc,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: numberController,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      background: Paint()
+                        ..strokeWidth = 20.0
+                        ..color = Colors.red
+                        ..style = PaintingStyle.stroke
+                        ..strokeJoin = StrokeJoin.round),
+                  decoration: InputDecoration(
+                    hintText: product.quantity.toString(),
+                    hintStyle: const TextStyle(color: Colors.white),
+                    border: InputBorder.none,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  color: Colors.red,
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 1.0),
+                      child: ElevatedButton(
+                          onPressed: () => removeProduct(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                          ),
+                          child: const Text(
+                            'ELIMINA',
+                            style: TextStyle(color: Colors.white),
+                          ))),
                 ),
               ],
             ),

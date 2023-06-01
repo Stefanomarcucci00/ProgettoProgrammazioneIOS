@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:progetto_programmazione_ios/ChipController.dart';
 import 'package:progetto_programmazione_ios/PageSearch.dart';
-import 'package:progetto_programmazione_ios/RestaurantDetail.dart';
+import 'package:progetto_programmazione_ios/PageRestaurantDetail.dart';
 import 'package:progetto_programmazione_ios/FirebaseControllerRestaurants.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';

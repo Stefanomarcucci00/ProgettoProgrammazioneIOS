@@ -1,6 +1,3 @@
-import 'dart:async';
-
-
 class RestaurantModel {
   final String imageR;
   final String nomeR;

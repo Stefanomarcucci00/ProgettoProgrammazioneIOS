@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../models/User.dart';
 import '../theme/widgets.dart';
 import 'PageLogin.dart';
 
@@ -12,7 +11,6 @@ class PageRegister extends StatefulWidget {
 }
 
 class _PageRegisterState extends State<PageRegister> {
-
   final nomeController = TextEditingController();
   final cognomeController = TextEditingController();
   final emailController = TextEditingController();
@@ -21,14 +19,13 @@ class _PageRegisterState extends State<PageRegister> {
   final telController = TextEditingController();
 
   Future<void> writeUserToDB(
-      String nomeU,
-      String cognomeU,
-      String emailU,
-      String pwdU,
-      String telU,
-      )async {
-    //CREA NUOVO UTENTE E SALVA SU DB
-    Map<String,String> newUser={
+    String nomeU,
+    String cognomeU,
+    String emailU,
+    String pwdU,
+    String telU,
+  ) async {
+    Map<String, String> newUser = {
       'Cognome': cognomeU,
       'Email': emailU,
       'Livello': '1',
@@ -38,9 +35,15 @@ class _PageRegisterState extends State<PageRegister> {
       'Uri': 'Users-images/defaultuserimg',
     };
     try {
-    FirebaseDatabase.instance.ref('Utenti').child(FirebaseAuth.instance.currentUser!.uid).set(newUser);
-    }
-    catch (error) {
+      FirebaseDatabase.instance
+          .ref('Utenti')
+          .child(FirebaseAuth.instance.currentUser!.uid)
+          .set(newUser);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => PageLogin()),
+      );
+    } catch (error) {
       Fluttertoast.showToast(
           msg: error.toString(),
           toastLength: Toast.LENGTH_SHORT,
@@ -50,36 +53,26 @@ class _PageRegisterState extends State<PageRegister> {
           textColor: Colors.white,
           fontSize: 16.0);
     }
-
   }
 
-  //FUNZIONE REGISTRA
-  Future<void> registerUser(String email, String password,
-      BuildContext context) async {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
-        User? user = userCredential.user;
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => PageLogin()),
-        );
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'email-already-in-use') {
-          Fluttertoast.showToast(
-              msg: "email gia in uso.",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0);
+  Future<void> registerUser(
+      String email, String password, BuildContext context) async {
+    try {
+      FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        Fluttertoast.showToast(
+            msg: "email gia in uso.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
-
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -94,15 +87,29 @@ class _PageRegisterState extends State<PageRegister> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Center(
+              child: Image.asset(
+                'assets/images/Logo.png',
+                height: 200,
+                width: 200,
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text('Compila tutti i campi per registrarti!',
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold)),
+            const SizedBox(height: 20),
             MyTextField(
                 controller: nomeController,
-                hintText: "nome",
+                hintText: "Nome",
                 obscureText: false,
                 enabled: true),
             const SizedBox(height: 10),
             MyTextField(
                 controller: cognomeController,
-                hintText: "cognome",
+                hintText: "Cognome",
                 obscureText: false,
                 enabled: true),
             const SizedBox(height: 10),
@@ -118,40 +125,55 @@ class _PageRegisterState extends State<PageRegister> {
                 obscureText: true,
                 enabled: true),
             const SizedBox(height: 10),
-           /*
             MyTextField(
                 controller: pwdConfirmController,
                 hintText: "Conferma password",
                 obscureText: true,
                 enabled: true),
             const SizedBox(height: 10),
-
-            */
             MyTextField(
                 controller: telController,
-                hintText: "num telefono",
+                hintText: "Telefono",
                 obscureText: false,
                 enabled: true),
             const SizedBox(height: 20),
             RedButton(
               buttonText: 'Registrati',
               onPressed: () async {
-                //FUNZIONE REGISTRATI
-                registerUser(emailController.text, pwdController.text,
-                     context);
+                if (pwdController.text == pwdConfirmController.text &&
+                    pwdController.text.isNotEmpty &&
+                    nomeController.text.length < 20 &&
+                    nomeController.text.isNotEmpty &&
+                    cognomeController.text.length < 20 &&
+                    nomeController.text.isNotEmpty &&
+                    emailController.text.length < 40 &&
+                    emailController.text.isNotEmpty &&
+                    pwdController.text.length > 5 &&
+                    telController.text.length > 9 &&
+                    telController.text.isNotEmpty) {
+                  registerUser(
+                      emailController.text, pwdController.text, context);
+                  writeUserToDB(
+                      nomeController.text,
+                      cognomeController.text,
+                      emailController.text,
+                      pwdController.text,
+                      telController.text);
 
-                //SCRIVO UTENTE SUL DB
-                writeUserToDB(
-                    nomeController.text,
-                    cognomeController.text,
-                    emailController.text,
-                    pwdController.text,
-                    telController.text);
-
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => PageLogin()),
-                );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => PageLogin()),
+                  );
+                } else {
+                  Fluttertoast.showToast(
+                      msg: "Controlla che tutti i campi siano corretti.",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                }
               },
             ),
             const SizedBox(height: 10),

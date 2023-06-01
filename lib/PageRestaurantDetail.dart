@@ -3,7 +3,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
+import 'package:provider/provider.dart';
 
+import 'CartProvider.dart';
 import 'ChipController.dart';
 import 'FirebaseControllerMenu.dart';
 import 'Intro/PageIntro.dart';
@@ -83,6 +85,8 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
 
   @override
   Widget build(BuildContext context) {
+    var cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
         appBar: const CustomAppBar(pageName: 'Ristoranti', backArrow: true),
         bottomNavigationBar: CustomBottomNavigationBar(
@@ -144,109 +148,113 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                     },
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                        ),
-                        Text(
-                          restaurant.ratingR.toStringAsFixed(2),
-                          style: const TextStyle(
-                            color: Colors.red,
-                            fontSize: 14,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.yellow,
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Text(
-                          "Descrizione: ",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
+                          Text(
+                            restaurant.ratingR.toStringAsFixed(2),
+                            style: const TextStyle(
                               color: Colors.red,
                               fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          restaurant.descrizioneR,
-                          style: const TextStyle(
-                            color: Colors.red,
-                            fontSize: 14,
+                            ),
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Text(
-                          "Indirizzo: ",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Text(
+                            "Descrizione: ",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Expanded(
+                            child: Text(
+                              restaurant.descrizioneR,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Text(
+                            "Indirizzo: ",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            restaurant.indirizzoR,
+                            style: const TextStyle(
                               color: Colors.red,
                               fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          restaurant.indirizzoR,
-                          style: const TextStyle(
-                            color: Colors.red,
-                            fontSize: 14,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Text(
-                          "Cucina: ",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Text(
+                            "Cucina: ",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            restaurant.tipoCiboR,
+                            style: const TextStyle(
                               color: Colors.red,
                               fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          restaurant.tipoCiboR,
-                          style: const TextStyle(
-                            color: Colors.red,
-                            fontSize: 14,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Text(
-                          "Telefono: ",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Text(
+                            "Telefono: ",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            restaurant.telefonoR,
+                            style: const TextStyle(
                               color: Colors.red,
                               fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          restaurant.telefonoR,
-                          style: const TextStyle(
-                            color: Colors.red,
-                            fontSize: 14,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -289,7 +297,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                           FilterMenu.values[chipController.selectedChip]);
                     });
               }))),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Obx(() => Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -298,6 +306,8 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                   itemCount: firebaseController.menuList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return CardProduct(
+                        restaurant: restaurant,
+                        provider: cartProvider,
                         product: firebaseController.menuList[index]);
                   },
                 ),

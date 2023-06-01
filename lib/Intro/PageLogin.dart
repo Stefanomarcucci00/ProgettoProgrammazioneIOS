@@ -74,9 +74,9 @@ class PageLogin extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            MyTextField(controller: emailController,hintText: "email", obscureText: false, enabled: true),
+            MyTextField(controller: emailController,hintText: "E-mail", obscureText: false, enabled: true),
             const SizedBox(height: 10),
-            MyTextField(controller: pwdController,hintText: "password", obscureText: true, enabled: true),
+            MyTextField(controller: pwdController,hintText: "Password", obscureText: true, enabled: true),
             const SizedBox(height: 20),
             RedButton(
               buttonText: 'Entra',

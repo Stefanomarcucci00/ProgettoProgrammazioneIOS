@@ -26,13 +26,13 @@ class _PageRegisterState extends State<PageRegister> {
     String telU,
   ) async {
     Map<String, String> newUser = {
+      'Nome': nomeU,
       'Cognome': cognomeU,
       'Email': emailU,
-      'Livello': '1',
-      'Nome': nomeU,
       'Passwrod': pwdU,
       'Telefono': telU,
       'Uri': 'Users-images/defaultuserimg',
+      'Livello': '1',
     };
     try {
       FirebaseDatabase.instance
@@ -140,25 +140,32 @@ class _PageRegisterState extends State<PageRegister> {
             RedButton(
               buttonText: 'Registrati',
               onPressed: () async {
-                if (pwdController.text == pwdConfirmController.text &&
+                if (
                     pwdController.text.isNotEmpty &&
+                    pwdController.text.length > 5 &&
+                    pwdController.text == pwdConfirmController.text &&
+
                     nomeController.text.length < 20 &&
                     nomeController.text.isNotEmpty &&
+
                     cognomeController.text.length < 20 &&
-                    nomeController.text.isNotEmpty &&
+                    cognomeController.text.isNotEmpty &&
+
                     emailController.text.length < 40 &&
                     emailController.text.isNotEmpty &&
-                    pwdController.text.length > 5 &&
+
                     telController.text.length > 9 &&
                     telController.text.isNotEmpty) {
+
                   registerUser(
-                      emailController.text, pwdController.text, context);
+                      emailController.text, pwdController.text,context);
+
                   writeUserToDB(
-                      nomeController.text,
-                      cognomeController.text,
-                      emailController.text,
-                      pwdController.text,
-                      telController.text);
+                      nomeController.text.toString(),
+                      cognomeController.text.toString(),
+                      emailController.text.toString(),
+                      pwdController.text.toString(),
+                      telController.text.toString() );
 
                   Navigator.pushReplacement(
                     context,

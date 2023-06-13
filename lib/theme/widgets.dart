@@ -10,6 +10,7 @@ import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 import '../CartProvider.dart';
 import '../models/Product.dart';
 
+// Widget per un bottone personalizzato
 class RedButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
@@ -32,6 +33,7 @@ class RedButton extends StatelessWidget {
   }
 }
 
+// Widget per un textfield personalizzato
 class MyTextField extends StatelessWidget {
   final controller;
   final String hintText;
@@ -75,6 +77,7 @@ class MyTextField extends StatelessWidget {
   }
 }
 
+// Widget per una search bar personalizzata
 class SearchBarCustom extends StatelessWidget {
   final Function(String) onSearch;
 
@@ -122,6 +125,7 @@ class SearchBarCustom extends StatelessWidget {
   }
 }
 
+// Widget per una search bar personalizzata ma non utilizzabile
 class fakeSearchBarCustom extends StatelessWidget {
   const fakeSearchBarCustom(
       {Key? key, required this.size, required this.enabled})
@@ -172,6 +176,7 @@ class fakeSearchBarCustom extends StatelessWidget {
   }
 }
 
+// Widget per l'appbar superiore personalizzata
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String pageName;
   final bool backArrow;
@@ -214,6 +219,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
+// Widget per la navbar inferiore personalizzata
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
@@ -249,6 +255,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   }
 }
 
+// Widget per una card che rappresenta le informazioni principali di un ristorante
 class CardRistorante extends StatelessWidget {
   final RestaurantModel restaurant;
 
@@ -358,6 +365,7 @@ class CardRistorante extends StatelessWidget {
   }
 }
 
+// Widget per una card di un prodotto all'interno del menu
 class CardProduct extends StatelessWidget {
   final ProductModel product;
   final CartProvider provider;
@@ -523,6 +531,7 @@ class CardProduct extends StatelessWidget {
   }
 }
 
+// Widget per una card di un prodotto del carrello
 class CardCartProduct extends StatelessWidget {
   final CartProductModel product;
   final CartProvider provider;

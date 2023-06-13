@@ -5,6 +5,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../theme/widgets.dart';
 import 'PageLogin.dart';
 
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+/* Chi utilizza questo fragment può effettuare la registrazione compilando appositamente
+  tutti i campi richiesti, oppure può navigare alla pagina Login */
+
 class PageRegister extends StatefulWidget {
   @override
   State<PageRegister> createState() => _PageRegisterState();
@@ -18,6 +22,8 @@ class _PageRegisterState extends State<PageRegister> {
   final pwdConfirmController = TextEditingController();
   final telController = TextEditingController();
 
+  // Quando tutti i campi sono compilati correttamente, verrà creata un'istanza
+  // authentication e verranno salvati i dati dell'utente sul database
   Future<void> writeUserToDB(
     String nomeU,
     String cognomeU,
@@ -184,6 +190,7 @@ class _PageRegisterState extends State<PageRegister> {
               },
             ),
             const SizedBox(height: 10),
+            // Cliccando sul bottone, la navigazione porterà alla pagina "login"
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(

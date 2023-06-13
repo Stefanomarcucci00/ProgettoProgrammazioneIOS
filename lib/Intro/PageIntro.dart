@@ -6,6 +6,9 @@ import '../theme/widgets.dart';
 import 'PageLogin.dart';
 import 'PageRegistrati.dart';
 
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+// Questa classe consente di navigare tra le pagine per effettuare il login o la registrazione
+
 class PageIntro extends StatelessWidget {
   const PageIntro({super.key});
 
@@ -31,6 +34,9 @@ class PageIntro extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 50),
+
+              /* Funzione che effettua il login automatico se è già stato effettuato in precedenza;
+                 Nel caso contrario, naviga nella pagina login */
               StreamBuilder<User?>(
                   stream: FirebaseAuth.instance.authStateChanges(),
                   builder: (context, snapshot) {
@@ -54,6 +60,7 @@ class PageIntro extends StatelessWidget {
                     );
                   }),
               const SizedBox(height: 20),
+              // Cliccando sul bottone, la navigazione porterà alla pagina "Registrati"
               TextButton(
                 onPressed: () {
                   Navigator.pushReplacement(

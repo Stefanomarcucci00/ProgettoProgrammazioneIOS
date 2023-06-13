@@ -6,6 +6,12 @@ import 'package:progetto_programmazione_ios/ChipController.dart';
 
 import 'models/Product.dart';
 
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+/* Questa classe permette all'applicazione di recuperare i dati dei menu
+di un ristorante dal database ed aggiungerli ad una lista grazie ad un filtraggio;
+inoltre, grazie al ChipController, verranno visualizzati i prodotti che
+corrisponderanno alla scelta effettuata */
+
 class FirebaseControllerMenu extends GetxController {
   var menuList = <ProductModel>[].obs;
   dynamic restaurant;
@@ -20,6 +26,7 @@ class FirebaseControllerMenu extends GetxController {
     super.onInit();
   }
 
+  // Collegamento con il database e filtraggio della lista grazie al parametro passato
   Stream<List<ProductModel>> getMenuData(FilterMenu tipologia) {
     DatabaseReference dbRef = FirebaseDatabase.instance
         .ref('Ristoranti/${restaurant!.idR}/Menu/${tipologia.name.toString()}');

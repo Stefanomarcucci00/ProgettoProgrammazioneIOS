@@ -1,3 +1,6 @@
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+// Questa classe descrive gli attributi e le relative tipologie di un prodotto aggiunto al carrello
+
 class CartProductModel {
   final String pName;
   final String pDesc;
@@ -26,6 +29,7 @@ class CartProductModel {
     );
   }
 
+  // Converte una mappa ad un file di tipo JSon
   Map<String, dynamic> toJson() {
     return {
       'pName': pName,

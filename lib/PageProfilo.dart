@@ -9,6 +9,10 @@ import 'package:progetto_programmazione_ios/theme/widgets.dart';
 import 'Intro/PageIntro.dart';
 import 'PageRistoranti.dart';
 
+
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+// Questa pagina permette all'utente di mostrare le proprie informazioni principali
+
 class PageProfilo extends StatefulWidget {
   final User? user;
 
@@ -30,6 +34,7 @@ class _PageProfiloState extends State<PageProfilo> {
     super.initState();
   }
 
+  // Richiama i dati dell'utente loggato
   Future<UserModel> getUser() async {
     final userDB = await FirebaseDatabase.instance
         .ref()
@@ -44,6 +49,7 @@ class _PageProfiloState extends State<PageProfilo> {
 
   int _selectedIndex = 0;
 
+  // Navigazione della bottom navigation bar
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -92,6 +98,7 @@ class _PageProfiloState extends State<PageProfilo> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
+                // Dopo aver recuperato i dati, li posiziona all'interno della grafica
                 child: FutureBuilder(
                   future: usermodel,
                   builder: (BuildContext context,

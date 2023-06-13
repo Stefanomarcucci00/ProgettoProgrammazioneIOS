@@ -6,9 +6,14 @@ import 'package:progetto_programmazione_ios/theme/widgets.dart';
 
 import 'PageRegistrati.dart';
 
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+/* Chi utilizza questa pagina può accedere all'interno dell'applicazione oppure navigare alla pagina Registrati */
+
 class PageLogin extends StatelessWidget {
   const PageLogin({super.key});
 
+  // Questa funzione permette di effettuare il login quando i campi di email e password corrispondono
+  // ad un account già creato
   Future<void> loginUser(
       String email, String password, BuildContext context) async {
     try {
@@ -25,7 +30,10 @@ class PageLogin extends StatelessWidget {
           fontSize: 16.0);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => PageRistoranti(user: user,)),
+        MaterialPageRoute(
+            builder: (context) => PageRistoranti(
+                  user: user,
+                )),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -74,9 +82,17 @@ class PageLogin extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            MyTextField(controller: emailController,hintText: "E-mail", obscureText: false, enabled: true),
+            MyTextField(
+                controller: emailController,
+                hintText: "E-mail",
+                obscureText: false,
+                enabled: true),
             const SizedBox(height: 10),
-            MyTextField(controller: pwdController,hintText: "Password", obscureText: true, enabled: true),
+            MyTextField(
+                controller: pwdController,
+                hintText: "Password",
+                obscureText: true,
+                enabled: true),
             const SizedBox(height: 20),
             RedButton(
               buttonText: 'Entra',
@@ -84,8 +100,8 @@ class PageLogin extends StatelessWidget {
                 loginUser(emailController.text, pwdController.text, context);
               },
             ),
-
             const SizedBox(height: 20),
+            // Cliccando sul bottone, la navigazione porterà alla pagina "Registrati"
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(

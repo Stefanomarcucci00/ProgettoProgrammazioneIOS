@@ -5,6 +5,12 @@ import 'package:get/get.dart';
 import 'package:progetto_programmazione_ios/ChipController.dart';
 import 'package:progetto_programmazione_ios/models/Restaurant.dart';
 
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+/* Questa classe permette all'applicazione di recuperare i dati di tutti i
+ristoranti dal database ed aggiungerli ad una lista grazie ad un filtraggio;
+inoltre, grazie al ChipController, verranno visualizzati i ristoranti che
+corrisponderanno alla scelta effettuata */
+
 class FirebaseControllerRist extends GetxController {
   var restaurantList = <RestaurantModel>[].obs;
   var restaurantListRating = <RestaurantModel>[].obs;
@@ -19,6 +25,7 @@ class FirebaseControllerRist extends GetxController {
     super.onInit();
   }
 
+  // Collegamento con il database e filtraggio della lista grazie al parametro passato
   Stream<List<RestaurantModel>> getRestaurantData(Filter tipologia) {
     DatabaseReference dbRef = FirebaseDatabase.instance.ref('Ristoranti');
 

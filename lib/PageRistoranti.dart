@@ -12,6 +12,11 @@ import 'package:progetto_programmazione_ios/theme/widgets.dart';
 import 'Intro/PageIntro.dart';
 import 'PageProfilo.dart';
 
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+/* Questa pagina permette all'utente di accedere alle liste dei ristoranti, che vengono
+ filtrati a seconda del proprio rating o delle tipologie di cibo;
+ inoltre, da qui è possibile accedere alla pagina "Cerca ristoranti"*/
+
 class PageRistoranti extends StatefulWidget {
   final User? user;
 
@@ -42,6 +47,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
 
   int _selectedIndex = 0;
 
+  // Navigazione della bottom navigation bar
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -104,6 +110,7 @@ class _PageRistorantiState extends State<PageRistoranti> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Effettua la navigazione per andare alla pagina "Cerca ristoranti"
               InkWell(
                   child: fakeSearchBarCustom(size: size, enabled: false),
                   onTap: () {
@@ -130,6 +137,8 @@ class _PageRistorantiState extends State<PageRistoranti> {
               const SizedBox(
                 height: 20,
               ),
+              // Otteniamo la lista dei ristoranti ed effettuiamo il binding con filtro "Rating"
+              // Verranno mostrati i ristoranti con rating più alto
               Obx(() => Expanded(
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -173,6 +182,8 @@ class _PageRistorantiState extends State<PageRistoranti> {
               const SizedBox(
                 height: 20,
               ),
+              // Ogni bottone premuto corrisponderà ad un opportuno filtraggio dei ristoranti e successivo
+              // adattamento, che verrà mostrata a schermo
               Obx(() => Wrap(
                   spacing: 20,
                   children: List<Widget>.generate(_chipLabel.length, (index) {

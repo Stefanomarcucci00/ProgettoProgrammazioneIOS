@@ -11,6 +11,10 @@ import 'PageProfilo.dart';
 import 'PageRistoranti.dart';
 import 'models/User.dart';
 
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+/* Questo fragment permette all'utente di mostrare a schermo, qualora ce ne fosse uno, il carrello
+salvato nel database, restituendolo sotto forma di immagine QR-Code */
+
 class PageQR_Code extends StatefulWidget {
   final User? user;
 
@@ -38,6 +42,7 @@ class _PageQR_CodeState extends State<PageQR_Code> {
     });
   }
 
+  // Funzione che permette di recuperare i dati del carrello dal database e restituirli sotto forma di mappa
   Future<List<dynamic>> fetchMapData() async {
     final userDB =
         await FirebaseDatabase.instance.ref('Utenti/${user!.uid}/Cart').get();
@@ -47,6 +52,7 @@ class _PageQR_CodeState extends State<PageQR_Code> {
 
   int _selectedIndex = 0;
 
+  // Navigazione della bottom navigation bar
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -74,6 +80,7 @@ class _PageQR_CodeState extends State<PageQR_Code> {
     }
   }
 
+// Widget che permette di modificare la parte grafica a seconda della mappa del carrello
   Widget generateQRCode() {
     String mapJson = jsonEncode(mapData);
     if (mapJson != 'null') {

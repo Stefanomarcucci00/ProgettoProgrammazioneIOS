@@ -5,6 +5,11 @@ import 'package:progetto_programmazione_ios/Intro/PageIntro.dart';
 import 'package:progetto_programmazione_ios/firebase_options.dart';
 import 'package:provider/provider.dart';
 
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+/* Questa classe inizializza l'applicazione, la connessione con Firebase
+ed il CartProvider (per il carrello) */
+
+// Inizializzazione dell'applicazione dopo la connessione con Firebase
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -18,7 +23,6 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -42,7 +46,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //Inizializzo le variabili firebase
+  //Inizializzazione delle variabili Firebase
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseapp = await Firebase.initializeApp();
     return firebaseapp;

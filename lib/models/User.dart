@@ -1,3 +1,6 @@
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+// Questa classe descrive gli attributi e le relative tipologie di un utente
+
 class UserModel {
   final String Nome;
   final String Cognome;
@@ -17,6 +20,7 @@ class UserModel {
     required this.Livello,
   });
 
+  // Converte una mappa in un UserModel
   factory UserModel.fromMap(Map<dynamic, dynamic> map) {
     return UserModel(
       Nome: map['Nome'],

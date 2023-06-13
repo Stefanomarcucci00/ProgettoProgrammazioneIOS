@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progetto_programmazione_ios/CartProvider.dart';
 import 'package:progetto_programmazione_ios/models/CartProduct.dart';
 import 'package:progetto_programmazione_ios/theme/widgets.dart';
@@ -10,6 +9,10 @@ import 'package:provider/provider.dart';
 import 'Intro/PageIntro.dart';
 import 'PageProfilo.dart';
 import 'PageRistoranti.dart';
+
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+/* Questa pagina mostra il carrello temporaneo (se sono stati aggiunti dei prodotti),
+permettendo di salvarlo nel database */
 
 class PageCarrello extends StatefulWidget {
   final User? user;
@@ -32,6 +35,7 @@ class _PageCarrelloState extends State<PageCarrello> {
 
   int _selectedIndex = 0;
 
+  // Navigazione della bottom navigation bar
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -65,6 +69,7 @@ class _PageCarrelloState extends State<PageCarrello> {
 
     List<CartProductModel> cartProducts = cartProvider.cartProducts;
 
+    // Funzione che permette di salvare il carrello all'interno del database
     Future<void> createCart() async {
       List<dynamic> cartProductsJson = cartProducts.map((product) => product.toJson()).toList();
       FirebaseDatabase.instance
@@ -73,6 +78,7 @@ class _PageCarrelloState extends State<PageCarrello> {
       cartProvider.clearData();
     }
 
+    // Widget che permette di modificare la parte grafica a seconda dei prodotti all'interno del provider
     Widget cartExists() {
       if (cartProvider.cartProducts.isEmpty) {
         return const Center(

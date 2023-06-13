@@ -1,3 +1,7 @@
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+// Questa classe descrive gli attributi e le relative tipologie di un ristorante
+// Inoltre, descrive una lista di tipo Enum che corrisponde alle possibili tipologie di cibo dei ristoranti
+
 class RestaurantModel {
   final String imageR;
   final String nomeR;
@@ -26,6 +30,7 @@ class RestaurantModel {
       required this.idR,
       required this.proprietarioR});
 
+  // Converte una mappa in un RestaurantModel
   factory RestaurantModel.fromMap(Map<dynamic, dynamic> map) {
     return RestaurantModel(
         imageR: map['imageR'],
@@ -43,6 +48,7 @@ class RestaurantModel {
   }
 }
 
+// Possibili tipologie di cibo di un ristorante
 enum Filter {
   Pizza,
   Burger,

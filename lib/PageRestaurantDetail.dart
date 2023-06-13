@@ -14,6 +14,11 @@ import 'PageRistoranti.dart';
 import 'models/Product.dart';
 import 'models/Restaurant.dart';
 
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+/* Questa pagina permette all'utente di accedere alle liste dei ristoranti, che vengono
+ filtrati a seconda del proprio rating o delle tipologie di cibo;
+ inoltre, da qui è possibile accedere alla pagina "Cerca ristoranti"*/
+
 class RestaurantDetail extends StatefulWidget {
   final RestaurantModel restaurant;
   final User? user;
@@ -45,6 +50,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
 
   int _selectedIndex = 0;
 
+  // Navigazione della bottom navigation bar
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -284,6 +290,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
             const SizedBox(
               height: 20,
             ),
+            // Questa funzione permettono di visualizzare le liste inerenti al bottone cliccato
             Obx(() => Wrap(
                 spacing: 20,
                 children: List<Widget>.generate(_chipLabel.length, (index) {

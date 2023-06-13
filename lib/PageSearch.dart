@@ -8,6 +8,9 @@ import 'PageRistoranti.dart';
 import 'PageRestaurantDetail.dart';
 import 'models/Restaurant.dart';
 
+// Made by Alessandro Pieragostini, Matteo Sonaglioni & Stefano Marcucci
+// Questa pagina permette all'utente di cercare un ristorante specifico all'interno del database
+
 class PageSearch extends StatefulWidget {
   final User? user;
   final Stream<List<RestaurantModel>> restaurantList;
@@ -32,6 +35,7 @@ class _PageSearchState extends State<PageSearch> {
 
   int _selectedIndex = 0;
 
+  // Navigazione della bottom navigation bar
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -80,6 +84,7 @@ class _PageSearchState extends State<PageSearch> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            // Filtra i ristoranti a seconda del testo inserito all'interno della Search Bar
             SearchBarCustom(onSearch: (value) {
               setState(() {
                 searchText = value.toLowerCase();
